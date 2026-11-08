@@ -1,0 +1,8 @@
+{
+  "name": "uri-roundtrip-probe",
+  "private": true,
+  "version": "0.0.0",
+  "publisher": "probe",
+  "engines": { "vscode": "^1.95.0" },
+  "devDependencies": { "@vscode/test-electron": "2.4.1" }
+}

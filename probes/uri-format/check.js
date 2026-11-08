@@ -1,0 +1,221 @@
+// Checks the claims of docs/URI.txt on the implementation for cross-checking (uri.js) with
+// vscode-uri 3.0.8 — the same URI code VS Code uses. Plain Node: `node check.js`.
+// What only VS Code itself can show (normalizePath, tabs) — vscode-probe.js.
+
+const assert = require('assert');
+const { URI, Utils } = require('vscode-uri');
+const F = require('./uri');
+
+const enc = s => new TextEncoder().encode(s);
+const ARCHIVE = URI.file('/home/u/release.zip');
+let n = 0;
+const ok = (cond, msg) => { assert.ok(cond, msg); n++; };
+
+// --- the label: escapes, decoding, injectivity
+const O = '\u27e6', C = '\u27e7';
+const E = s => O + s + C;
+
+// Inverse of labelPath, written independently: path -> { bytes, index }. If it always gives
+// back what the label was built from, two different entries can never share a label.
+function unlabel(path) {
+  assert.strictEqual(path[0], '/');
+  const out = []; let index = 0;
+  for (let i = 1; i < path.length;) {
+    const ch = String.fromCodePoint(path.codePointAt(i));
+    if (ch !== O) { out.push(...enc(ch)); i += ch.length; continue; }
+    const j = path.indexOf(C, i);
+    if (j < 0) throw new Error('unclosed escape in ' + path);
+    const c = path.slice(i + 1, j); i = j + 1;
+    if (c === '' || c === '.' || c === '..') out.push(...enc(c));
+    else if (/^#[1-9][0-9]*$/.test(c)) { index = Number(c.slice(1)); assert.strictEqual(path[i], '/'); i++; }
+    else if (/^U\+[0-9A-F]{4,6}$/.test(c)) out.push(...enc(String.fromCodePoint(parseInt(c.slice(2), 16))));
+    else if (/^[0-9A-F]{2}$/.test(c)) out.push(parseInt(c, 16));
+    else throw new Error('bad escape ' + c + ' in ' + path);
+  }
+  return { bytes: Uint8Array.from(out), index };
+}
+const sameBytes = (x, y) => Buffer.compare(Buffer.from(x), Buffer.from(y)) === 0;
+// Everything outside escapes is shown as is: no code point of the escape list may remain.
+// The escape list, derived independently from the runtime's Unicode tables by the rule of
+// docs/URI.txt 3.2. The table is frozen at Unicode 17.0, so it is compared only on a runtime with
+// exactly that version; any other version would confirm nothing about 17.0.
+const UNICODE = '17.0';
+const KEPT = c => c === 0x20 || c === 0x200c || c === 0x200d || (c >= 0xfe00 && c <= 0xfe0f) ||
+  (c >= 0xe0100 && c <= 0xe01ef) || (c >= 0x180b && c <= 0x180d) || c === 0x180f;
+const HIDDEN = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}\p{Zs}\p{Default_Ignorable_Code_Point}\p{Noncharacter_Code_Point}]/u;
+const derived = c => c === 0x27e6 || (!KEPT(c) && HIDDEN.test(String.fromCodePoint(c)));
+if (process.versions.unicode !== UNICODE) {
+  console.log(`SKIPPED: frozen escape list vs Unicode properties — runtime has Unicode ${process.versions.unicode}, the list is ${UNICODE}`);
+} else { const diff = [];
+  for (let c = 0; c <= 0x10ffff; c++) if (!(c >= 0xd800 && c <= 0xdfff) && derived(c) !== F.shownAsEscape(c)) diff.push(c.toString(16));
+  ok(diff.length === 0, 'frozen escape list = Unicode ' + UNICODE + ' properties; differ: ' + diff.slice(0, 20).join(' ')); }
+// Everything outside escapes is shown as is: no code point to be escaped may remain.
+const visible = path => ![...path.replace(/⟦[^⟧]*⟧/g, '')].some(ch => derived(ch.codePointAt(0)));
+
+// UTF-8 decoding: well-formed sequences decoded, everything else escaped byte by byte
+const B = (...x) => Uint8Array.from(x);
+const DECODE = [
+  [B(0xc3, 0xa4), '\u00e4'], [B(0x84), E('84')], [B(0xf0, 0x9f, 0x98, 0x80), '\u{1f600}'],
+  [B(0xed, 0xa0, 0x80), E('ED') + E('A0') + E('80')],          // encoded surrogate
+  [B(0xc0, 0x80), E('C0') + E('80')], [B(0xe0, 0x80, 0x80), E('E0') + E('80') + E('80')], // overlong
+  [B(0xf4, 0x90, 0x80, 0x80), E('F4') + E('90') + E('80') + E('80')],  // above U+10FFFF
+  [B(0xe2, 0x82, 0x41), E('E2') + E('82') + 'A'],                     // truncated, then ASCII
+  [B(0xef, 0xbb, 0xbf, 0x61), E('U+FEFF') + 'a'],                     // BOM: decoded, then escaped
+];
+for (const [bytes, want] of DECODE) ok(F.renderName(bytes) === want, 'decode ' + Buffer.from(bytes).toString('hex') + ' -> ' + F.renderName(bytes));
+
+const LABELS = [
+  ['a/b.txt', '/a/b.txt'], ['', '/' + E('')], ['.', '/' + E('.')], ['..', '/' + E('..')],
+  ['/', '/' + E('') + E('U+002F')], ['a/..', '/a/' + E('..')], ['./a//b', '/' + E('.') + '/a/' + E('') + '/b'],
+  ['/etc/passwd', '/' + E('') + '/etc/passwd'], ['a/c/../b.txt', '/a/c/' + E('..') + '/b.txt'],
+  ['a/b/', '/a/b' + E('U+002F')], ['a/b//', '/a/b/' + E('') + E('U+002F')], ['.../a', '/.../a'], ['a/.b/..c', '/a/.b/..c'],
+  ['C:/x.txt', '/' + E('U+0043') + ':/x.txt'], ['c:/x.txt', '/c:/x.txt'], ['a/C:/b', '/a/C:/b'],
+  ['a\\b', '/a\\b'], ['%41?#&=', '/%41?#&='], ['\u0416:/a', '/\u0416:/a'],
+  ['a\u0000b\tc\nd\u007f', '/a' + E('U+0000') + 'b' + E('U+0009') + 'c' + E('U+000A') + 'd' + E('U+007F')],
+  ['x\u0085y\u00a0z\u00ad', '/x' + E('U+0085') + 'y' + E('U+00A0') + 'z' + E('U+00AD')],
+  ['invoice\u202etxt.exe', '/invoice' + E('U+202E') + 'txt.exe'],
+  ['a\u200bb\u200ec\u200fd\u061ce\u2028f\u3000g', '/a' + E('U+200B') + 'b' + E('U+200E') + 'c' + E('U+200F') + 'd' + E('U+061C') + 'e' + E('U+2028') + 'f' + E('U+3000') + 'g'],
+  [O + '84' + C, '/' + E('U+27E6') + '84' + C],
+  ['\u2400\ufffd', '/\u2400\ufffd'],
+  // kept: ZWJ, ZWNJ, variation selectors
+  ['\u{1f468}\u200d\u{1f469}\u200c\u2764\ufe0f\u{e0100}\u180b', '/\u{1f468}\u200d\u{1f469}\u200c\u2764\ufe0f\u{e0100}\u180b'],
+  ['\u{e0001}\ufdd0\u{1fffe}', '/' + E('U+E0001') + E('U+FDD0') + E('U+1FFFE')],
+];
+for (const [name, want] of LABELS) {
+  const p = F.labelPath(enc(name));
+  ok(p === want, 'label ' + JSON.stringify(name) + ' -> ' + p + ', want ' + want);
+}
+const INDEXED = [['a/README.md', 1, '/a/' + E('#1') + '/README.md'], ['README.md', 2, '/' + E('#2') + '/README.md'],
+  ['a/b/', 1, '/a/' + E('#1') + '/b' + E('U+002F')], ['C:', 1, '/' + E('#1') + '/C:']];
+for (const [name, i, want] of INDEXED) ok(F.labelPath(enc(name), i) === want, 'label ' + name + ' #' + i + ' -> ' + F.labelPath(enc(name), i));
+
+// Pairs that look alike or used to share a label: different labels now
+const PAIRS = [
+  [B(0xc3, 0xa4), B(0x84)], [enc('a\u0000b'), enc('a\u2400b')], [enc('x\u0085'), enc('x\ufffd')],
+  [enc('..'), enc('\ufffd..')], [enc('a/b/'), enc('a/b')], [enc('C:/x'), enc('c:/x')], [enc('a b'), enc('a\u00a0b')],
+  [enc('ab'), enc('a\u200bb')], [enc(O + '84' + C), B(0x84)], [enc('a/./b'), enc('a/b')], [enc('a/c/../b'), enc('a/c/b')],
+  [enc('/a'), enc('a')], [enc('a//b'), enc('a/b')], [enc('x'), enc('\ufeffx')],
+];
+for (const [x, y] of PAIRS) ok(F.labelPath(x) !== F.labelPath(y), 'labels must differ: ' + F.labelPath(x));
+ok(F.labelPath(enc('a/b'), 0) !== F.labelPath(enc('a/b'), 1), 'duplicates: labels must differ');
+
+// --- label path: invariant under VS Code's normalizePath and parse∘toString
+const vsNormalize = p => { // what UriIdentityService does to a path (probes/uri-roundtrip)
+  const out = [];
+  for (const s of p.split('/').slice(1)) {
+    if (s === '' || s === '.') continue;
+    if (s === '..') { out.pop(); continue; }
+    out.push(s);
+  }
+  return '/' + out.join('/');
+};
+
+// --- random names, archives (incl. nested), indices: round trip through the string form
+// mulberry32. Not `seed % k` of an LCG: its low bits repeat with a short period, and the first
+// version of this check ran 381 distinct cases out of 20 000. SEED=<n> node check.js - another run.
+const SEED = Number(process.env.SEED ?? 42) >>> 0;
+let state = SEED;
+const rnd = k => {
+  state = (state + 0x6d2b79f5) >>> 0;
+  let t = state;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return Math.floor((((t ^ (t >>> 14)) >>> 0) / 2 ** 32) * k);
+};
+const PIECES = ['a', 'B', '/', '/', '.', '..', '', '%', '%2F', '&', '=', '#', '?', '+', ' ', '\\', 'C:', 'c:', '\u00e9',
+  'e\u0301', '\u00e4', '\u0000', '\n', '\u007f', '\u0085', '\u00a0', '\u00ad', '\u200b', '\u202e', '\u2066', '\u2028',
+  '\u200d', '\u200f', '\ufe0f', '\ufeff', '\ufffd', '\u2400', O, C, O + '84' + C, O + '#1' + C, 'U+0043',
+  '\u{1f600}', '\u0416', '~', '-', '_'];
+const randomName = () => {
+  if (rnd(4) === 0) return Uint8Array.from({ length: rnd(12) }, () => rnd(256)); // arbitrary bytes
+  let s = ''; for (let k = rnd(8); k > 0; k--) s += PIECES[rnd(PIECES.length)];
+  return enc(s);
+};
+const utf8fatal = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
+const ARCHIVES = [ARCHIVE, URI.parse('file:///C:/x.zip'), URI.file('/tmp/a&b=c#d?e%.zip'),
+  URI.parse('vscode-remote://ssh-remote%2Bhost/x.zip'), URI.parse('http://u:p@h:8/x.zip?q=1&r=2#f')];
+const seen = new Map(), labels = new Map();
+const N = 20000;
+const before = n;
+for (let t = 0; t < N; t++) {
+  let archive = ARCHIVES[rnd(ARCHIVES.length)];
+  for (let d = rnd(4); d > 0; d--) archive = F.build(URI, archive, randomName(), rnd(3));
+  const bytes = randomName(), index = rnd(3);
+  const u = F.build(URI, archive, bytes, index);
+  const s = u.toString();
+  const back = URI.parse(s);
+  ok(F.same(back, u), 'string round trip ' + s);
+  ok(back.toString() === s, 'toString is a fixed point ' + s);
+  ok(vsNormalize(u.path) === u.path && !u.path.endsWith('/') && !/^\/[A-Z]:/.test(u.path), 'path is a fixed point of VS Code ' + u.path);
+  ok(visible(u.path), 'nothing invisible or acting outside escapes ' + JSON.stringify(u.path));
+  { // nothing dropped, nothing added: one path segment per name segment (+1 for the index)
+    const plain = Buffer.from(bytes).toString('latin1');
+    const want = (plain.endsWith('/') ? plain.slice(0, -1) : plain).split('/').length + (index > 0 ? 1 : 0);
+    ok(u.path.slice(1).split('/').length === want, 'one segment per name segment ' + u.path); }
+  { const r = unlabel(u.path);
+    ok(sameBytes(r.bytes, bytes) && r.index === index, 'label gives back name and index ' + u.path); }
+  { let valid = true; try { utf8fatal.decode(bytes); } catch { valid = false; }
+    ok(valid === !/\u27e6[0-9A-F]{2}\u27e7/.test(F.renderName(bytes)), 'byte escapes exactly when not UTF-8 ' + Buffer.from(bytes).toString('hex')); }
+  const r = F.parse(URI, back);
+  ok(r && r.archive.toString() === archive.toString() && sameBytes(r.bytes, bytes) && r.index === index, 'parse ' + s);
+  // injectivity: one string per (archive, bytes, index); one label per (bytes, index)
+  const key = Buffer.from(bytes).toString('hex') + '\u0000' + index;
+  ok(!seen.has(s) || seen.get(s) === archive.toString() + key, 'two entries share ' + s);
+  seen.set(s, archive.toString() + key);
+  ok(!labels.has(u.path) || labels.get(u.path) === key, 'two entries share the label ' + u.path);
+  labels.set(u.path, key);
+}
+const randomChecks = n - before;
+// Guard against the generator degenerating again (the space of cases is far larger than N).
+ok(seen.size > 0.95 * N, `only ${seen.size} distinct cases out of ${N}`);
+
+// --- non-canonical forms are rejected
+const Q = `pkg=${ARCHIVE.toString()}`;
+const u = (query, extra = {}) => URI.from({ scheme: F.SCHEME, authority: F.AUTHORITY, path: '/A', fragment: '', query, ...extra });
+ok(F.parse(URI, u(`${Q}&entry=QQ`)), 'canonical: entry "A"');
+ok(F.parse(URI, u(`${Q}&entry=QQ&index=1`, { path: '/' + E('#1') + '/A' })), 'canonical: index 1');
+ok(F.parse(URI, F.build(URI, ARCHIVE, new Uint8Array(0))).bytes.length === 0, 'empty name: entry=');
+const REJECT = {
+  'entry=QR (lenient decoder → "A")': u(`${Q}&entry=QR`),
+  'entry=QQ== (padding)': u(`${Q}&entry=QQ==`),
+  'entry=Q Q': u(`${Q}&entry=Q Q`),
+  'entry=QQ!': u(`${Q}&entry=QQ!`),
+  'entry base64 not base64url': F.build(URI, ARCHIVE, new Uint8Array([0xfb, 0xff])).with({ query: `${Q}&entry=+/8` }),
+  'index=0': u(`${Q}&entry=QQ&index=0`),
+  'index=01': u(`${Q}&entry=QQ&index=01`),
+  'index=': u(`${Q}&entry=QQ&index=`),
+  'index=1e1': u(`${Q}&entry=QQ&index=1e1`),
+  'index=-1': u(`${Q}&entry=QQ&index=-1`),
+  'index too big': u(`${Q}&entry=QQ&index=99999999999999999999`),
+  'order': u(`entry=QQ&${Q}`),
+  'extra parameter': u(`${Q}&entry=QQ&x=1`),
+  'repeated parameter': u(`${Q}&entry=QQ&entry=QQ`),
+  'no entry': u(Q),
+  'pkg not canonical (C: instead of c%3A)': u(`pkg=file:///C:/x.zip&entry=QQ`),
+  'pkg empty': u(`pkg=&entry=QQ`),
+  'path differs from label': u(`${Q}&entry=QQ`, { path: '/B' }),
+  'path not normalized': u(`${Q}&entry=QQ`, { path: '/./A' }),
+  'authority upper case': u(`${Q}&entry=QQ`, { authority: 'V1' }),
+  'other format version': u(`${Q}&entry=QQ`, { authority: 'v2' }),
+  'fragment': u(`${Q}&entry=QQ`, { fragment: 'L10' }),
+  'relative link resolved against an entry (joinPath)': Utils.joinPath(u(`${Q}&entry=YS9SRUFETUUubWQ`, { path: '/a/README.md' }), '..', 'img.png'),
+};
+for (const [label, uri] of Object.entries(REJECT)) ok(F.parse(URI, uri) === null, `must reject: ${label}`);
+
+// --- why the format does what it does: facts about the tools
+ok(['QQ', 'QR', 'QQ==', 'Q Q', 'QQ!'].every(s => Buffer.from(s, 'base64url').toString() === 'A'), 'Node base64url decoder is lenient');
+ok(URI.parse('zip-document://v1/C:/a').toString() === 'zip-document://v1/c%3A/a', 'toString lower-cases /X:');
+{ const amp = F.build(URI, URI.file('/tmp/a&b.zip'), enc('A'));
+  ok(URI.parse(amp.toString(true)).query !== amp.query && F.parse(URI, URI.parse(amp.toString(true))) === null, 'toString(true) does not round-trip'); }
+ok(!/[&=]/.test(URI.from({ scheme: 'x', authority: 'a&b=c@h&=:1', path: '/p&=q', query: 'q=1&r=2', fragment: 'f&=g' }).toString()), 'toString() encodes & and = in every component');
+
+// --- size: nesting depth → string length
+const lengths = [];
+let a = ARCHIVE;
+for (let d = 1; d <= 5; d++) { a = F.build(URI, a, enc('inner/archive.zip')); lengths.push(a.toString().length); }
+
+console.log(`seed ${SEED}: ${N} random cases, ${seen.size} distinct, 10 properties each (${randomChecks} checks); ` +
+  `${n - randomChecks} targeted checks. All passed.`);
+console.log('example:', F.build(URI, ARCHIVE, enc('src/main.ts')).toString());
+console.log('example, nested:', F.build(URI, F.build(URI, ARCHIVE, enc('lib/x.jar')), enc('META-INF/MANIFEST.MF'), 1).toString());
+console.log('string length for nesting depth 1..5 (name inner/archive.zip):', lengths.join(', '));

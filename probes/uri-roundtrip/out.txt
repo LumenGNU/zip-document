@@ -1,0 +1,631 @@
+VS Code 1.145.2, linux. Провайдер zip: isCaseSensitive true.
+
+## обычный
+  отправлен: authority="" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## //  в середине
+  отправлен: authority="" path="/a//b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      (провайдер не вызывался)
+      document.uri  ИЗМЕНЁН: path "/doc/a//b.txt" → "/doc/a/b.txt"
+  open:
+      readFile      ИЗМЕНЁН: path "/open/a//b.txt" → "/open/a/b.txt"
+      stat          ИЗМЕНЁН: path "/open/a//b.txt" → "/open/a/b.txt"
+      watch         ИЗМЕНЁН: path "/open/a//b.txt" → "/open/a/b.txt"
+      unwatch       ИЗМЕНЁН: path "/open/a//b.txt" → "/open/a/b.txt"
+      tab.input.uri ИЗМЕНЁН: path "/open/a//b.txt" → "/open/a/b.txt"  (label "b.txt")
+
+## //  в конце
+  отправлен: authority="" path="/a//" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      ИЗМЕНЁН: path "/doc/a//" → "/doc/a/"
+      stat          ИЗМЕНЁН: path "/doc/a//" → "/doc/a/"
+      document.uri  ИЗМЕНЁН: path "/doc/a//" → "/doc/a/"
+  open:
+      readFile      ИЗМЕНЁН: path "/open/a//" → "/open/a/"
+      stat          ИЗМЕНЁН: path "/open/a//" → "/open/a/"
+      watch         ИЗМЕНЁН: path "/open/a//" → "/open/a/"
+      unwatch       ИЗМЕНЁН: path "/open/a//" → "/open/a/"
+      tab.input.uri ИЗМЕНЁН: path "/open/a//" → "/open/a/"  (label "a")
+
+## /./
+  отправлен: authority="" path="/a/./b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      (провайдер не вызывался)
+      document.uri  ИЗМЕНЁН: path "/doc/a/./b.txt" → "/doc/a/b.txt"
+  open:
+      readFile      ИЗМЕНЁН: path "/open/a/./b.txt" → "/open/a/b.txt"
+      stat          ИЗМЕНЁН: path "/open/a/./b.txt" → "/open/a/b.txt"
+      watch         ИЗМЕНЁН: path "/open/a/./b.txt" → "/open/a/b.txt"
+      unwatch       ИЗМЕНЁН: path "/open/a/./b.txt" → "/open/a/b.txt"
+      tab.input.uri ИЗМЕНЁН: path "/open/a/./b.txt" → "/open/a/b.txt"  (label "b.txt")
+
+## /../
+  отправлен: authority="" path="/a/../b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      ИЗМЕНЁН: path "/doc/a/../b.txt" → "/doc/b.txt"
+      stat          ИЗМЕНЁН: path "/doc/a/../b.txt" → "/doc/b.txt"
+      document.uri  ИЗМЕНЁН: path "/doc/a/../b.txt" → "/doc/b.txt"
+  open:
+      readFile      ИЗМЕНЁН: path "/open/a/../b.txt" → "/open/b.txt"
+      stat          ИЗМЕНЁН: path "/open/a/../b.txt" → "/open/b.txt"
+      watch         ИЗМЕНЁН: path "/open/a/../b.txt" → "/open/b.txt"
+      unwatch       ИЗМЕНЁН: path "/open/a/../b.txt" → "/open/b.txt"
+      tab.input.uri ИЗМЕНЁН: path "/open/a/../b.txt" → "/open/b.txt"  (label "b.txt")
+
+## /.. в начале
+  отправлен: authority="" path="/../b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      ИЗМЕНЁН: path "/doc/../b.txt" → "/b.txt"
+      stat          ИЗМЕНЁН: path "/doc/../b.txt" → "/b.txt"
+      document.uri  ИЗМЕНЁН: path "/doc/../b.txt" → "/b.txt"
+  open:
+      stat          ИЗМЕНЁН: path "/open/../b.txt" → "/b.txt"
+      watch         ИЗМЕНЁН: path "/open/../b.txt" → "/b.txt"
+      unwatch       ИЗМЕНЁН: path "/open/../b.txt" → "/b.txt"
+      tab.input.uri ИЗМЕНЁН: path "/open/../b.txt" → "/b.txt"  (label "b.txt")
+
+## / в конце
+  отправлен: authority="" path="/a/b.txt/" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## . в конце
+  отправлен: authority="" path="/a/b.txt." fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt.")
+
+## пробел в конце
+  отправлен: authority="" path="/a/b.txt\\u{20}" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt\\u{20}")
+
+## регистр
+  отправлен: authority="" path="/A/B.TXT" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "B.TXT")
+
+## NFC é
+  отправлен: authority="" path="/\\u{e9}.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "\\u{e9}.txt")
+
+## NFD e+◌́
+  отправлен: authority="" path="/e\\u{301}.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "e\\u{301}.txt")
+
+## текст %FF
+  отправлен: authority="" path="/%FF.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "%FF.txt")
+
+## текст %2F
+  отправлен: authority="" path="/a%2Fb.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a%2Fb.txt")
+
+## ? и # в пути
+  отправлен: authority="" path="/a?b#c.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a?b#c.txt")
+
+## пробел
+  отправлен: authority="" path="/a\\u{20}b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a\\u{20}b.txt")
+
+## \ в пути
+  отправлен: authority="" path="/a\\\\b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a\\\\b.txt")
+
+## NUL
+  отправлен: authority="" path="/a\\u{0}b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a\\u{0}b.txt")
+
+## U+0001
+  отправлен: authority="" path="/a\\u{1}b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a\\u{1}b.txt")
+
+## перевод строки
+  отправлен: authority="" path="/a\\u{a}b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "a\\u{a}b.txt")
+
+## одиночный суррогат
+  отправлен: authority="" path="/\\u{d800}.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc: ОШИБКА: URI malformed
+      (провайдер не вызывался)
+  open: ОШИБКА: URI malformed
+      (провайдер не вызывался)
+
+## U+FFFD
+  отправлен: authority="" path="/\\u{fffd}.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "\\u{fffd}.txt")
+
+## длинный сегмент 300
+  отправлен: authority="" path="/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.txt")
+
+## authority 2
+  отправлен: authority="2" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## authority AbC
+  отправлен: authority="AbC" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      ИЗМЕНЁН: authority "AbC" → "abc"
+      stat          ИЗМЕНЁН: authority "AbC" → "abc"
+      document.uri  ИЗМЕНЁН: authority "AbC" → "abc"
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## query с & и =
+  отправлен: authority="" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## query пустой
+  отправлен: authority="" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## fragment L10
+  отправлен: authority="" path="/a/b.txt" fragment="L10"
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      ИЗМЕНЁН: fragment "L10" → ""
+      stat          ИЗМЕНЁН: fragment "L10" → ""
+      watch         ИЗМЕНЁН: fragment "L10" → ""
+      unwatch       ИЗМЕНЁН: fragment "L10" → ""
+      tab.input.uri ИЗМЕНЁН: fragment "L10" → ""  (label "b.txt")
+
+## вложенный zip в query
+  отправлен: authority="" path="/a/b.txt" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "b.txt")
+
+## корень /
+  отправлен: authority="" path="/" fragment=""
+  fs:
+      stat          без изменений
+  doc: ОШИБКА: cannot open zip:/?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip. Detail: Unable to read file 'zip:/?file:///tmp/probe/x.zip' (Error: Unable to read file 'zip:/?file:///tmp/probe/x.zip' that is actually a directory)
+      readFile      без изменений
+      stat          без изменений
+      readDirectory без изменений
+  open:
+      readFile      без изменений
+      stat          без изменений
+      readDirectory без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "")
+
+## пустой path
+  отправлен: authority="" path="" fragment=""
+  fs:
+      stat          без изменений
+  doc: ОШИБКА: Invalid uri. Scheme and authority or path must be set.
+      (провайдер не вызывался)
+  open:
+      (провайдер не вызывался)
+      tab.input.uri без изменений  (label ".")
+
+## // в начале, без authority
+  Uri.from: ошибка: [UriError]: If a URI does not contain an authority component, then the path cannot begin with two slash characters ("//")
+
+## 12 × .. выше корня
+  отправлен: authority="" path="/../../../../../../../../../../../../a" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+      stat          ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+      document.uri  ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+  open:
+      stat          ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+      watch         ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+      unwatch       ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"
+      tab.input.uri ИЗМЕНЁН: path "/../../../../../../../../../../../../a" → "/a"  (label "a")
+
+## /a/..
+  отправлен: authority="" path="/a/.." fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc: ОШИБКА: cannot open zip:/?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip. Detail: Unable to read file 'zip:/?file:///tmp/probe/x.zip' (Error: Unable to read file 'zip:/?file:///tmp/probe/x.zip' that is actually a directory)
+      readFile      ИЗМЕНЁН: path "/a/.." → "/"
+      stat          ИЗМЕНЁН: path "/a/.." → "/"
+      readDirectory ИЗМЕНЁН: path "/a/.." → "/"
+  open:
+      readFile      ИЗМЕНЁН: path "/a/.." → "/"
+      stat          ИЗМЕНЁН: path "/a/.." → "/"
+      readDirectory ИЗМЕНЁН: path "/a/.." → "/"
+      watch         ИЗМЕНЁН: path "/a/.." → "/"
+      unwatch       ИЗМЕНЁН: path "/a/.." → "/"
+      tab.input.uri ИЗМЕНЁН: path "/a/.." → "/"  (label "")
+
+## /..
+  отправлен: authority="" path="/.." fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc: ОШИБКА: cannot open zip:/?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip. Detail: Unable to read file 'zip:/?file:///tmp/probe/x.zip' (Error: Unable to read file 'zip:/?file:///tmp/probe/x.zip' that is actually a directory)
+      readFile      ИЗМЕНЁН: path "/.." → "/"
+      stat          ИЗМЕНЁН: path "/.." → "/"
+      readDirectory ИЗМЕНЁН: path "/.." → "/"
+  open:
+      readFile      ИЗМЕНЁН: path "/.." → "/"
+      stat          ИЗМЕНЁН: path "/.." → "/"
+      readDirectory ИЗМЕНЁН: path "/.." → "/"
+      watch         ИЗМЕНЁН: path "/.." → "/"
+      unwatch       ИЗМЕНЁН: path "/.." → "/"
+      tab.input.uri ИЗМЕНЁН: path "/.." → "/"  (label "")
+
+## authority, пустой path
+  отправлен: authority="m" path="" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc: ОШИБКА: cannot open zip://m?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip. Detail: Unable to resolve filesystem provider with relative file path 'zip://m?file:///tmp/probe/x.zip'
+      (провайдер не вызывался)
+  open:
+      (провайдер не вызывался)
+      tab.input.uri без изменений  (label ".")
+
+## authority, path /
+  отправлен: authority="m" path="/" fragment=""
+  fs:
+      stat          без изменений
+      readFile      без изменений
+  doc:
+      readFile      без изменений
+      stat          без изменений
+      document.uri  без изменений
+  open:
+      stat          без изменений
+      watch         без изменений
+      unwatch       без изменений
+      tab.input.uri без изменений  (label "")
+
+# Пары: считает ли VS Code два разных URI одним ресурсом
+
+## a/b vs a//b
+  doc:  ОДИН TextDocument
+  open: вкладок: 1
+
+## a/b vs a/./b
+  doc:  ОДИН TextDocument
+  open: вкладок: 1
+
+## a/b vs x/../a/b
+  doc:  ОДИН TextDocument
+  open: вкладок: 1
+
+## a/b vs a/b/
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## a/b vs a/b.
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## регистр пути
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## NFC vs NFD
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## a/b vs a\b
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## регистр authority
+  doc:  ОДИН TextDocument
+  open: вкладок: 1
+
+## регистр query
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+## fragment
+  doc:  разные TextDocument
+  open: вкладок: 1
+
+## entry=QQ vs entry=QR
+  doc:  разные TextDocument
+  open: вкладок: 2
+
+# watch / unwatch: один URI в нескольких группах
+
+## vscode.open(u)  (вкладок 1, групп 1)
+  watch    #53 zip:/lifecycle/a/b.txt?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip  {"recursive":false,"excludes":[]}
+## splitEditor  (вкладок 2, групп 2)
+  (нет вызовов watch/unwatch)
+## vscode.open(u, ViewColumn.Three)  (вкладок 3, групп 3)
+  (нет вызовов watch/unwatch)
+## vscode.open(u2: тот же path, другой query)  (вкладок 3, групп 3)
+  watch    #54 zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR  {"recursive":false,"excludes":[]}
+## закрыть активный редактор (u2)  (вкладок 2, групп 2)
+  unwatch  #54 zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR
+## закрыть активный редактор (u, группа 3)  (вкладок 1, групп 1)
+  (нет вызовов watch/unwatch)
+## закрыть активный редактор (u, ещё одна копия)  (вкладок 0, групп 1)
+  unwatch  #53 zip:/lifecycle/a/b.txt?file%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip
+## закрыть всё  (вкладок 0, групп 1)
+  (нет вызовов watch/unwatch)
+## пауза 3 с  (вкладок 0, групп 1)
+  (нет вызовов watch/unwatch)

@@ -1,0 +1,14 @@
+python: 3.14.4
+unzip: UnZip 6.00 of 20 April 2009, by Debian. Original by Info-ZIP.
+7z: 7-Zip 26.00 (x64) 
+bsdtar: bsdtar 3.8.5 - libarchive 3.8.5 zlib/1.3.1 liblzma/5.8.3 bz2lib/1.0.8 liblz4/1.10.0 libzstd/1.5.7 nettle/3.10 libb2/bundled libacl/2.3.2 libattr/2.3.2 
+
+имя              python         unzip          7z             bsdtar
+a/b.txt          a/b.txt        a/b.txt        a/b.txt        a/b.txt       
+a/./b.txt        a/b.txt        a/b.txt        a/b.txt        a/b.txt       
+a//b.txt         a/b.txt        a/b.txt        a/b.txt        a/b.txt       
+./a/b.txt        a/b.txt        a/b.txt        a/b.txt        a/b.txt       
+/a/b.txt         a/b.txt        a/b.txt        a/b.txt        a/b.txt       
+a/c/../b.txt     a/c/b.txt      a/c/b.txt      a/c/b.txt      отказ    
+../a/b.txt       a/b.txt        a/b.txt        a/b.txt        отказ    
+x/../../y.txt    x/y.txt        x/y.txt        x/y.txt        отказ    

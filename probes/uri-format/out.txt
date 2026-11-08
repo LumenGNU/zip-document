@@ -1,0 +1,131 @@
+VS Code 1.145.2, linux. Схема zip-document, isCaseSensitive true.
+
+повторная регистрация схемы: исключение «a provider for the scheme 'probe-taken' is already registered»
+
+## обычное
+  zip-document://v1/src/main.ts?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3Dc3JjL21haW4udHM
+  path "/src/main.ts"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "main.ts"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "main.ts"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## дубликат, index 1
+  zip-document://v1/src/%E2%9F%A6%231%E2%9F%A7/main.ts?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3Dc3JjL21haW4udHM%26index%3D1
+  path "/src/\\u{27e6}#1\\u{27e7}/main.ts"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "main.ts"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "main.ts"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## пустое имя
+  zip-document://v1/%E2%9F%A6%E2%9F%A7?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3D
+  path "/\\u{27e6}\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## .
+  zip-document://v1/%E2%9F%A6.%E2%9F%A7?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DLg
+  path "/\\u{27e6}.\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}.\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}.\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## a/..
+  zip-document://v1/a/%E2%9F%A6..%E2%9F%A7?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DYS8uLg
+  path "/a/\\u{27e6}..\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}..\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}..\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## ./a//b
+  zip-document://v1/%E2%9F%A6.%E2%9F%A7/a/%E2%9F%A6%E2%9F%A7/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DLi9hLy9iLnR4dA
+  path "/\\u{27e6}.\\u{27e7}/a/\\u{27e6}\\u{27e7}/b.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "b.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "b.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## ../../x
+  zip-document://v1/%E2%9F%A6..%E2%9F%A7/%E2%9F%A6..%E2%9F%A7/x.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DLi4vLi4veC50eHQ
+  path "/\\u{27e6}..\\u{27e7}/\\u{27e6}..\\u{27e7}/x.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "x.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "x.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## ведущий /
+  zip-document://v1/%E2%9F%A6%E2%9F%A7/etc/passwd?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DL2V0Yy9wYXNzd2Q
+  path "/\\u{27e6}\\u{27e7}/etc/passwd"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "passwd"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "passwd"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## буква диска C:
+  zip-document://v1/%E2%9F%A6U%2B0043%E2%9F%A7%3A/x.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DQzoveC50eHQ
+  path "/\\u{27e6}U+0043\\u{27e7}:/x.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "x.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "x.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## каталог a/b/
+  zip-document://v1/a/b%E2%9F%A6U%2B002F%E2%9F%A7?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DYS9iLw
+  path "/a/b\\u{27e6}U+002F\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "b\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "b\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## %41 ? # & = +
+  zip-document://v1/d/%2541%3F%23%26%3D%2B.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DZC8lNDE_IyY9Ky50eHQ
+  path "/d/%41?#&=+.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "%41?#&=+.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "%41?#&=+.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## NUL, перевод строки
+  zip-document://v1/a%E2%9F%A6U%2B0000%E2%9F%A7b%E2%9F%A6U%2B000A%E2%9F%A7c.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DYQBiCmMudHh0
+  path "/a\\u{27e6}U+0000\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "a\\u{27e6}U+0000\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "a\\u{27e6}U+0000\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## кириллица
+  zip-document://v1/%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0/%D1%84%D0%B0%D0%B9%D0%BB.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3D0L_QsNC_0LrQsC_RhNCw0LnQuy50eHQ
+  path "/\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}/\\u{444}\\u{430}\\u{439}\\u{43b}.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{444}\\u{430}\\u{439}\\u{43b}.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{444}\\u{430}\\u{439}\\u{43b}.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## NFD
+  zip-document://v1/e%CC%81.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DZcyBLnR4dA
+  path "/e\\u{301}.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "e\\u{301}.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "e\\u{301}.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## CP437 (не UTF-8)
+  zip-document://v1/%E2%9F%A684%E2%9F%A7.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3DhC50eHQ
+  path "/\\u{27e6}84\\u{27e7}.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}84\\u{27e7}.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}84\\u{27e7}.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## произвольные байты
+  zip-document://v1/%E2%9F%A6FF%E2%9F%A7%E2%9F%A6FE%E2%9F%A7/%E2%9F%A6U%2B0000%E2%9F%A7%E2%9F%A680%E2%9F%A7?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip%26entry%3D__4vAIA
+  path "/\\u{27e6}FF\\u{27e7}\\u{27e6}FE\\u{27e7}/\\u{27e6}U+0000\\u{27e7}\\u{27e6}80\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+0000\\u{27e7}\\u{27e6}80\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+0000\\u{27e7}\\u{27e6}80\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## архив с & = # в имени
+  zip-document://v1/a.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fa%2526b%253Dc%2523d.zip%26entry%3DYS50eHQ
+  path "/a.txt"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "a.txt"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "a.txt"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## вложенный архив
+  zip-document://v1/META-INF/MANIFEST.MF?pkg%3Dzip-document%3A%2F%2Fv1%2Flib%2F%25E2%259F%25A6%25231%25E2%259F%25A7%2Fx.jar%3Fpkg%253Dfile%253A%252F%252F%252Ftmp%252Fprobe%252Frelease.zip%2526entry%253DbGliL3guamFy%2526index%253D1%26entry%3DTUVUQS1JTkYvTUFOSUZFU1QuTUY
+  path "/META-INF/MANIFEST.MF"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "MANIFEST.MF"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "MANIFEST.MF"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+ИТОГ: все URI дошли до провайдера без изменений и приняты

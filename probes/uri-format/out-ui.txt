@@ -1,0 +1,300 @@
+VS Code 1.145.2, linux. Что видит человек: DOM workbench через CDP.
+
+## 1. кириллица   [01.png]
+  path          "/\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}/\\u{444}\\u{430}\\u{439}\\u{43b}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{444}\\u{430}\\u{439}\\u{43b}.txt,\\u{20}preview"
+  подсказка     "/\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}/\\u{444}\\u{430}\\u{439}\\u{43b}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}","\\u{444}\\u{430}\\u{439}\\u{43b}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{444}\\u{430}\\u{439}\\u{43b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 2. NFC é   [02.png]
+  path          "/caf\\u{e9}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "caf\\u{e9}.txt,\\u{20}preview"
+  подсказка     "/caf\\u{e9}.txt\\u{20}(preview\\u{20})"
+  крошки        ["caf\\u{e9}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}caf\\u{e9}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 3. NFD e+◌́   [03.png]
+  path          "/cafe\\u{301}.txt"
+  NFC / NFKC    меняет → "caf\\u{e9}.txt" / меняет → "caf\\u{e9}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "cafe\\u{301}.txt,\\u{20}preview"
+  подсказка     "/cafe\\u{301}.txt\\u{20}(preview\\u{20})"
+  крошки        ["cafe\\u{301}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}cafe\\u{301}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 4. лигатура ﬁ (NFKC → fi)   [04.png]
+  path          "/\\u{fb01}le.txt"
+  NFC / NFKC    не меняет / меняет → "file.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{fb01}le.txt,\\u{20}preview"
+  подсказка     "/\\u{fb01}le.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{fb01}le.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{fb01}le.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 5. полноширинные ＡＢＣ (NFKC → ABC)   [05.png]
+  path          "/\\u{ff21}\\u{ff22}\\u{ff23}.txt"
+  NFC / NFKC    не меняет / меняет → "ABC.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{ff21}\\u{ff22}\\u{ff23}.txt,\\u{20}preview"
+  подсказка     "/\\u{ff21}\\u{ff22}\\u{ff23}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{ff21}\\u{ff22}\\u{ff23}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{ff21}\\u{ff22}\\u{ff23}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 6. верхний индекс ² (NFKC → 2)   [06.png]
+  path          "/x\\u{b2}.txt"
+  NFC / NFKC    не меняет / меняет → "x2.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "x\\u{b2}.txt,\\u{20}preview"
+  подсказка     "/x\\u{b2}.txt\\u{20}(preview\\u{20})"
+  крошки        ["x\\u{b2}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}x\\u{b2}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 7. полуширинная катакана (NFKC → полноширинная)   [07.png]
+  path          "/\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt"
+  NFC / NFKC    не меняет / меняет → "\\u{30ab}\\u{30bf}\\u{30ab}\\u{30ca}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt,\\u{20}preview"
+  подсказка     "/\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 8. римская Ⅻ (NFKC → XII)   [08.png]
+  path          "/\\u{216b}.txt"
+  NFC / NFKC    не меняет / меняет → "XII.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{216b}.txt,\\u{20}preview"
+  подсказка     "/\\u{216b}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{216b}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{216b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 9. ㎏ (NFKC → kg)   [09.png]
+  path          "/\\u{338f}.txt"
+  NFC / NFKC    не меняет / меняет → "kg.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{338f}.txt,\\u{20}preview"
+  подсказка     "/\\u{338f}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{338f}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{338f}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 10. знак ангстрема U+212B (NFC → Å U+00C5)   [10.png]
+  path          "/\\u{212b}.txt"
+  NFC / NFKC    меняет → "\\u{c5}.txt" / меняет → "\\u{c5}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{212b}.txt,\\u{20}preview"
+  подсказка     "/\\u{212b}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{212b}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{212b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 11. знак ома U+2126 (NFC → Ω U+03A9)   [11.png]
+  path          "/\\u{2126}.txt"
+  NFC / NFKC    меняет → "\\u{3a9}.txt" / меняет → "\\u{3a9}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{2126}.txt,\\u{20}preview"
+  подсказка     "/\\u{2126}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{2126}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{2126}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 12. чамо хангыля (NFC → 가)   [12.png]
+  path          "/\\u{1100}\\u{1161}.txt"
+  NFC / NFKC    меняет → "\\u{ac00}.txt" / меняет → "\\u{ac00}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{1100}\\u{1161}.txt,\\u{20}preview"
+  подсказка     "/\\u{1100}\\u{1161}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{1100}\\u{1161}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{1100}\\u{1161}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 13. китайский   [13.png]
+  path          "/\\u{4e2d}\\u{6587}/\\u{6587}\\u{4ef6}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{6587}\\u{4ef6}.txt,\\u{20}preview"
+  подсказка     "/\\u{4e2d}\\u{6587}/\\u{6587}\\u{4ef6}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{4e2d}\\u{6587}","\\u{6587}\\u{4ef6}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{6587}\\u{4ef6}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 14. эмодзи с ZWJ   [14.png]
+  path          "/\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt,\\u{20}preview"
+  подсказка     "/\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 15. иврит (RTL)   [15.png]
+  path          "/\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt,\\u{20}preview"
+  подсказка     "/\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 16. RLO U+202E   [16.png]
+  path          "/invoice\\u{27e6}U+202E\\u{27e7}txt.exe"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "invoice\\u{27e6}U+202E\\u{27e7}txt.exe,\\u{20}preview"
+  подсказка     "/invoice\\u{27e6}U+202E\\u{27e7}txt.exe\\u{20}(preview\\u{20})"
+  крошки        ["invoice\\u{27e6}U+202E\\u{27e7}txt.exe"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}invoice\\u{27e6}U+202E\\u{27e7}txt.exe\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 17. пробел нулевой ширины   [17.png]
+  path          "/a\\u{27e6}U+200B\\u{27e7}b.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "a\\u{27e6}U+200B\\u{27e7}b.txt,\\u{20}preview"
+  подсказка     "/a\\u{27e6}U+200B\\u{27e7}b.txt\\u{20}(preview\\u{20})"
+  крошки        ["a\\u{27e6}U+200B\\u{27e7}b.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+200B\\u{27e7}b.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 18. BOM в начале   [18.png]
+  path          "/\\u{27e6}U+FEFF\\u{27e7}bom.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{27e6}U+FEFF\\u{27e7}bom.txt,\\u{20}preview"
+  подсказка     "/\\u{27e6}U+FEFF\\u{27e7}bom.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{27e6}U+FEFF\\u{27e7}bom.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}U+FEFF\\u{27e7}bom.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 19. таб и перевод строки   [19.png]
+  path          "/a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt,\\u{20}preview"
+  подсказка     "/a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt\\u{20}(preview\\u{20})"
+  крошки        ["a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 20. NUL   [20.png]
+  path          "/a\\u{27e6}U+0000\\u{27e7}b.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "a\\u{27e6}U+0000\\u{27e7}b.txt,\\u{20}preview"
+  подсказка     "/a\\u{27e6}U+0000\\u{27e7}b.txt\\u{20}(preview\\u{20})"
+  крошки        ["a\\u{27e6}U+0000\\u{27e7}b.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0000\\u{27e7}b.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 21. NEL U+0085 и DEL   [21.png]
+  path          "/a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt,\\u{20}preview"
+  подсказка     "/a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt\\u{20}(preview\\u{20})"
+  крошки        ["a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 22. изоляция LRI…PDI   [22.png]
+  path          "/a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt,\\u{20}preview"
+  подсказка     "/a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt\\u{20}(preview\\u{20})"
+  крошки        ["a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 23. много диакритик   [23.png]
+  path          "/z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt"
+  NFC / NFKC    меняет → "\\u{17a}\\u{302}\\u{303}\\u{304}\\u{305}.txt" / меняет → "\\u{17a}\\u{302}\\u{303}\\u{304}\\u{305}.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt,\\u{20}preview"
+  подсказка     "/z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt\\u{20}(preview\\u{20})"
+  крошки        ["z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 24. CP437 0x84 → ä   [24.png]
+  path          "/\\u{27e6}84\\u{27e7}.txt"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{27e6}84\\u{27e7}.txt,\\u{20}preview"
+  подсказка     "/\\u{27e6}84\\u{27e7}.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{27e6}84\\u{27e7}.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}84\\u{27e7}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 25. глубокий путь для крошек   [25.png]
+  path          "/\\u{43e}\\u{434}\\u{438}\\u{43d}/\\u{434}\\u{432}\\u{430}/\\u{442}\\u{440}\\u{438}/\\u{fb01}le.txt"
+  NFC / NFKC    не меняет / меняет → "file.txt"
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{fb01}le.txt,\\u{20}preview"
+  подсказка     "/\\u{43e}\\u{434}\\u{438}\\u{43d}/\\u{434}\\u{432}\\u{430}/\\u{442}\\u{440}\\u{438}/\\u{fb01}le.txt\\u{20}(preview\\u{20})"
+  крошки        ["\\u{43e}\\u{434}\\u{438}\\u{43d}","\\u{434}\\u{432}\\u{430}","\\u{442}\\u{440}\\u{438}","\\u{fb01}le.txt"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{fb01}le.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 26. пустое имя   [26.png]
+  path          "/\\u{27e6}\\u{27e7}"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{27e6}\\u{27e7},\\u{20}preview"
+  подсказка     "/\\u{27e6}\\u{27e7}\\u{20}(preview\\u{20})"
+  крошки        ["\\u{27e6}\\u{27e7}"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}\\u{27e7}\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 27. одноимённые из разных каталогов   [27.png]
+  вкладка "README.md"  описание "/a"
+  вкладка "README.md"  описание "/b"
+
+## 28. дубликаты (index 0 и 1)   [28.png]
+  вкладка "README.md"  описание "/a"
+  вкладка "README.md"  описание "/a/\\u{27e6}#1\\u{27e7}"
+
+## 29. NFC и NFD одного имени   [29.png]
+  вкладка "caf\\u{e9}.txt"  описание null
+  вкладка "cafe\\u{301}.txt"  описание null
+
+## 30. одно имя, записанное по-разному, и настоящий a/c/b.txt   [30.png]
+  вкладка "b.txt"  описание "/a"
+  вкладка "b.txt"  описание "/a/\\u{27e6}.\\u{27e7}"
+  вкладка "b.txt"  описание "/a/\\u{27e6}\\u{27e7}"
+  вкладка "b.txt"  описание "/\\u{27e6}.\\u{27e7}/a"
+  вкладка "b.txt"  описание "/\\u{27e6}\\u{27e7}/a"
+  вкладка "b.txt"  описание "/a/\\u{2026}/\\u{27e6}..\\u{27e7}"
+  вкладка "b.txt"  описание "/a/c"
+
+## 31. запись каталога и файл с тем же именем   [31.png]
+  вкладка "b\\u{27e6}U+002F\\u{27e7}"  описание null
+  вкладка "b"  описание null
+
+## 32. похожие имена: пробел и NBSP, ZWSP, NUL и знак U+2400   [32.png]
+  вкладка "a\\u{20}b.txt"  описание null
+  вкладка "a\\u{27e6}U+00A0\\u{27e7}b.txt"  описание null
+  вкладка "ab.txt"  описание null
+  вкладка "a\\u{27e6}U+200B\\u{27e7}b.txt"  описание null
+  вкладка "a\\u{27e6}U+0000\\u{27e7}b.txt"  описание null
+  вкладка "a\\u{2400}b.txt"  описание null
+
+## 33. ä в UTF-8 и байт 0x84   [33.png]
+  вкладка "\\u{e4}.txt"  описание null
+  вкладка "\\u{27e6}84\\u{27e7}.txt"  описание null
+
+ИТОГ: заголовок вкладки во всех случаях — последний сегмент path, символ в символ

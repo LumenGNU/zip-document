@@ -1,0 +1,235 @@
+:0x0 ; Local File Header (#0)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+07 a1 ea dd ; "•íΩ▌" ; 3723141383 ; 0xddeaa107 ; CRC-32
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Compressed size
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Uncompressed size
+01 00       ; "☺�"   ; 0000000001 ; 0x0001     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0x1e ; File Name
+    61 ; cp437"a"
+:0x1f ; File Contents
+610a
+
+:0x21 ; Local File Header (#1)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+c2 52 62 6e ; "┬Rbn" ; 1851937474 ; 0x6e6252c2 ; CRC-32
+08 00 00 00 ; "◘���" ; 0000000008 ; 0x00000008 ; Compressed size
+08 00 00 00 ; "◘���" ; 0000000008 ; 0x00000008 ; Uncompressed size
+07 00       ; "•�"   ; 0000000007 ; 0x0007     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0x3f ; File Name
+    61 2f 62 2e 74 78 74 ; cp437"a/b.txt"
+:0x46 ; File Contents
+612f622e7478740a
+
+:0x4e ; Local File Header (#2)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+3d dc 46 9a ; "=▄FÜ" ; 2588335165 ; 0x9a46dc3d ; CRC-32
+09 00 00 00 ; "○���" ; 0000000009 ; 0x00000009 ; Compressed size
+09 00 00 00 ; "○���" ; 0000000009 ; 0x00000009 ; Uncompressed size
+08 00       ; "◘�"   ; 0000000008 ; 0x0008     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0x6c ; File Name
+    61 2f 2f 62 2e 74 78 74 ; cp437"a//b.txt"
+:0x74 ; File Contents
+612f2f622e7478740a
+
+:0x7d ; Local File Header (#3)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+cc 9b 16 e4 ; "╠¢▬Σ" ; 3826686924 ; 0xe4169bcc ; CRC-32
+0a 00 00 00 ; "◙���" ; 0000000010 ; 0x0000000a ; Compressed size
+0a 00 00 00 ; "◙���" ; 0000000010 ; 0x0000000a ; Uncompressed size
+09 00       ; "○�"   ; 0000000009 ; 0x0009     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0x9b ; File Name
+    2e 2f 61 2f 62 2e 74 78 74 ; cp437"./a/b.txt"
+:0xa4 ; File Contents
+2e2f612f622e7478740a
+
+:0xae ; Local File Header (#4)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; CRC-32
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; Compressed size
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; Uncompressed size
+02 00       ; "☻�"   ; 0000000002 ; 0x0002     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0xcc ; File Name
+    61 2f ; cp437"a/"
+
+:0xce ; Local File Header (#5)
+50 4b 03 04 ; "PK♥♦" ; 0067324752 ; 0x04034b50 ; Local file header signature
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+cd f2 0b aa ; "═≥♂¬" ; 2852909773 ; 0xaa0bf2cd ; CRC-32
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Compressed size
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Uncompressed size
+01 00       ; "☺�"   ; 0000000001 ; 0x0001     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+  :0xec ; File Name
+    2e ; cp437"."
+:0xed ; File Contents
+2e0a
+
+:0xef ; Central Directory Entry (#0)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+07 a1 ea dd ; "•íΩ▌" ; 3723141383 ; 0xddeaa107 ; CRC-32
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Compressed size
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Uncompressed size
+01 00       ; "☺�"   ; 0000000001 ; 0x0001     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+00 00 b4 81 ; "��┤ü" ; 2176057344 ; 0x81b40000 ; External file attributes
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; Relative offset of local file header
+  :0x11d ; File name
+    61 ; cp437"a"
+
+:0x11e ; Central Directory Entry (#1)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+c2 52 62 6e ; "┬Rbn" ; 1851937474 ; 0x6e6252c2 ; CRC-32
+08 00 00 00 ; "◘���" ; 0000000008 ; 0x00000008 ; Compressed size
+08 00 00 00 ; "◘���" ; 0000000008 ; 0x00000008 ; Uncompressed size
+07 00       ; "•�"   ; 0000000007 ; 0x0007     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+00 00 b4 81 ; "��┤ü" ; 2176057344 ; 0x81b40000 ; External file attributes
+21 00 00 00 ; "!���" ; 0000000033 ; 0x00000021 ; Relative offset of local file header
+  :0x14c ; File name
+    61 2f 62 2e 74 78 74 ; cp437"a/b.txt"
+
+:0x153 ; Central Directory Entry (#2)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+3d dc 46 9a ; "=▄FÜ" ; 2588335165 ; 0x9a46dc3d ; CRC-32
+09 00 00 00 ; "○���" ; 0000000009 ; 0x00000009 ; Compressed size
+09 00 00 00 ; "○���" ; 0000000009 ; 0x00000009 ; Uncompressed size
+08 00       ; "◘�"   ; 0000000008 ; 0x0008     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+00 00 b4 81 ; "��┤ü" ; 2176057344 ; 0x81b40000 ; External file attributes
+4e 00 00 00 ; "N���" ; 0000000078 ; 0x0000004e ; Relative offset of local file header
+  :0x181 ; File name
+    61 2f 2f 62 2e 74 78 74 ; cp437"a//b.txt"
+
+:0x189 ; Central Directory Entry (#3)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+cc 9b 16 e4 ; "╠¢▬Σ" ; 3826686924 ; 0xe4169bcc ; CRC-32
+0a 00 00 00 ; "◙���" ; 0000000010 ; 0x0000000a ; Compressed size
+0a 00 00 00 ; "◙���" ; 0000000010 ; 0x0000000a ; Uncompressed size
+09 00       ; "○�"   ; 0000000009 ; 0x0009     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+00 00 b4 81 ; "��┤ü" ; 2176057344 ; 0x81b40000 ; External file attributes
+7d 00 00 00 ; "}���" ; 0000000125 ; 0x0000007d ; Relative offset of local file header
+  :0x1b7 ; File name
+    2e 2f 61 2f 62 2e 74 78 74 ; cp437"./a/b.txt"
+
+:0x1c0 ; Central Directory Entry (#4)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; CRC-32
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; Compressed size
+00 00 00 00 ; "����" ; 0000000000 ; 0x00000000 ; Uncompressed size
+02 00       ; "☻�"   ; 0000000002 ; 0x0002     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+10 00 fd 41 ; "►�²A" ; 1107099664 ; 0x41fd0010 ; External file attributes
+ae 00 00 00 ; "«���" ; 0000000174 ; 0x000000ae ; Relative offset of local file header
+  :0x1ee ; File name
+    61 2f ; cp437"a/"
+
+:0x1f0 ; Central Directory Entry (#5)
+50 4b 01 02 ; "PK☺☻" ; 0033639248 ; 0x02014b50 ; Central directory file header signature
+1e 03       ; "▲♥"   ; 0000000798 ; 0x031e     ; Version made by
+0a 00       ; "◙�"   ; 0000000010 ; 0x000a     ; Version needed to extract (minimum)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; General purpose bit flag
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Compression method
+27 90       ; "'É"   ; 0000036903 ; 0x9027     ; File last modification time
+66 5d       ; "f]"   ; 0000023910 ; 0x5d66     ; File last modification date
+cd f2 0b aa ; "═≥♂¬" ; 2852909773 ; 0xaa0bf2cd ; CRC-32
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Compressed size
+02 00 00 00 ; "☻���" ; 0000000002 ; 0x00000002 ; Uncompressed size
+01 00       ; "☺�"   ; 0000000001 ; 0x0001     ; File name length (n)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Extra field length (m)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; File comment length (k)
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk number where file starts
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Internal file attributes
+00 00 b4 81 ; "��┤ü" ; 2176057344 ; 0x81b40000 ; External file attributes
+ce 00 00 00 ; "╬���" ; 0000000206 ; 0x000000ce ; Relative offset of local file header
+  :0x21e ; File name
+    2e ; cp437"."
+
+:0x21f ; End of central directory record
+50 4b 05 06 ; "PK♣♠" ; 0101010256 ; 0x06054b50 ; End of central directory signature
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Number of this disk
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Disk where central directory starts
+06 00       ; "♠�"   ; 0000000006 ; 0x0006     ; Number of central directory records on this disk
+06 00       ; "♠�"   ; 0000000006 ; 0x0006     ; Total number of central directory records
+30 01 00 00 ; "0☺��" ; 0000000304 ; 0x00000130 ; Size of central directory (bytes)
+ef 00 00 00 ; "∩���" ; 0000000239 ; 0x000000ef ; Offset of start of central directory, relative to start of archive
+00 00       ; "��"   ; 0000000000 ; 0x0000     ; Comment Length
