@@ -7657,17 +7657,17 @@
         "scheme": "zip",
         "authority": "",
         "path": "/pair12/a/b.txt",
-        "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+        "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
         "fragment": "",
-        "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+        "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
       },
       "b": {
         "scheme": "zip",
         "authority": "",
         "path": "/pair12/a/b.txt",
-        "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+        "query": "archive=file:///tmp/probe/x.zip&entry=QR",
         "fragment": "",
-        "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+        "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
       },
       "doc": {
         "result": {
@@ -7676,17 +7676,17 @@
             "scheme": "zip",
             "authority": "",
             "path": "/pair12/a/b.txt",
-            "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+            "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
             "fragment": "",
-            "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+            "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
           },
           "b": {
             "scheme": "zip",
             "authority": "",
             "path": "/pair12/a/b.txt",
-            "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+            "query": "archive=file:///tmp/probe/x.zip&entry=QR",
             "fragment": "",
-            "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+            "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
           }
         },
         "calls": [
@@ -7696,9 +7696,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pair12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             }
           },
           {
@@ -7707,9 +7707,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pair12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             }
           },
           {
@@ -7718,9 +7718,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pair12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             }
           },
           {
@@ -7729,9 +7729,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pair12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pair12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pair12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             }
           }
         ]
@@ -7743,17 +7743,17 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             },
             {
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             }
           ]
         },
@@ -7764,9 +7764,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             }
           },
           {
@@ -7775,9 +7775,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             }
           },
           {
@@ -7786,9 +7786,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             },
             "id": 51,
             "options": {
@@ -7802,9 +7802,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             }
           },
           {
@@ -7813,9 +7813,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             }
           },
           {
@@ -7824,9 +7824,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QQ",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QQ",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQQ"
             },
             "id": 51
           },
@@ -7836,9 +7836,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             },
             "id": 52,
             "options": {
@@ -7852,9 +7852,9 @@
               "scheme": "zip",
               "authority": "",
               "path": "/pairo12/a/b.txt",
-              "query": "pkg=file:///tmp/probe/x.zip&entry=QR",
+              "query": "archive=file:///tmp/probe/x.zip&entry=QR",
               "fragment": "",
-              "str": "zip:/pairo12/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+              "str": "zip:/pairo12/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
             },
             "id": 52
           }
@@ -7899,7 +7899,7 @@
         {
           "op": "watch",
           "id": 54,
-          "str": "zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR",
+          "str": "zip:/lifecycle/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR",
           "options": {
             "recursive": false,
             "excludes": []
@@ -7915,7 +7915,7 @@
         {
           "op": "unwatch",
           "id": 54,
-          "str": "zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
+          "str": "zip:/lifecycle/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR"
         }
       ]
     },

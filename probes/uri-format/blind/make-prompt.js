@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const spec = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'docs', 'URI.txt'), 'utf8');
-const end = spec.indexOf('\n# 4. ');
+const end = spec.indexOf('\n4. Гарантии');
 if (end < 0) throw new Error('section 4 not found in docs/URI.txt');
 let part = spec.slice(0, end).trimEnd() + '\n';
 // The pointer to our own implementation must not reach the implementer.

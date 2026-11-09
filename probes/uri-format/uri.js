@@ -91,7 +91,7 @@ const b64 = bytes => Buffer.from(bytes).toString('base64url');
 // (archive URI, name bytes, index among entries with these bytes) → entry URI.
 function build(Uri, archive, bytes, index = 0) {
   if (!Number.isSafeInteger(index) || index < 0) throw new RangeError(`index ${index}`);
-  let query = `pkg=${archive.toString()}&entry=${b64(bytes)}`;
+  let query = `archive=${archive.toString()}&entry=${b64(bytes)}`;
   if (index > 0) query += `&index=${index}`;
   return Uri.from({ scheme: SCHEME, authority: AUTHORITY, path: labelPath(bytes, index), query, fragment: '' });
 }
@@ -104,9 +104,9 @@ function parse(Uri, uri) {
   const parts = uri.query.split('&');
   if (parts.length < 2 || parts.length > 3) return null;
   const [p, e, i] = parts;
-  if (!p.startsWith('pkg=') || !e.startsWith('entry=') || (i !== undefined && !i.startsWith('index='))) return null;
+  if (!p.startsWith('archive=') || !e.startsWith('entry=') || (i !== undefined && !i.startsWith('index='))) return null;
   let archive;
-  try { archive = Uri.parse(p.slice(4), true); } catch { return null; }
+  try { archive = Uri.parse(p.slice('archive='.length), true); } catch { return null; }
   const bytes = Buffer.from(e.slice(6), 'base64url');
   const index = i === undefined ? 0 : Number(i.slice(6));
   if (!Number.isSafeInteger(index) || index < 0) return null;

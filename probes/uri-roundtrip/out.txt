@@ -618,9 +618,9 @@ VS Code 1.145.2, linux. Провайдер zip: isCaseSensitive true.
 ## vscode.open(u, ViewColumn.Three)  (вкладок 3, групп 3)
   (нет вызовов watch/unwatch)
 ## vscode.open(u2: тот же path, другой query)  (вкладок 3, групп 3)
-  watch    #54 zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR  {"recursive":false,"excludes":[]}
+  watch    #54 zip:/lifecycle/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR  {"recursive":false,"excludes":[]}
 ## закрыть активный редактор (u2)  (вкладок 2, групп 2)
-  unwatch  #54 zip:/lifecycle/a/b.txt?pkg%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR
+  unwatch  #54 zip:/lifecycle/a/b.txt?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fx.zip%26entry%3DQR
 ## закрыть активный редактор (u, группа 3)  (вкладок 1, групп 1)
   (нет вызовов watch/unwatch)
 ## закрыть активный редактор (u, ещё одна копия)  (вкладок 0, групп 1)

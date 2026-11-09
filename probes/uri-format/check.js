@@ -170,7 +170,7 @@ const randomChecks = n - before;
 ok(seen.size > 0.95 * N, `only ${seen.size} distinct cases out of ${N}`);
 
 // --- non-canonical forms are rejected
-const Q = `pkg=${ARCHIVE.toString()}`;
+const Q = `archive=${ARCHIVE.toString()}`;
 const u = (query, extra = {}) => URI.from({ scheme: F.SCHEME, authority: F.AUTHORITY, path: '/A', fragment: '', query, ...extra });
 ok(F.parse(URI, u(`${Q}&entry=QQ`)), 'canonical: entry "A"');
 ok(F.parse(URI, u(`${Q}&entry=QQ&index=1`, { path: '/' + E('#1') + '/A' })), 'canonical: index 1');
@@ -191,8 +191,8 @@ const REJECT = {
   'extra parameter': u(`${Q}&entry=QQ&x=1`),
   'repeated parameter': u(`${Q}&entry=QQ&entry=QQ`),
   'no entry': u(Q),
-  'pkg not canonical (C: instead of c%3A)': u(`pkg=file:///C:/x.zip&entry=QQ`),
-  'pkg empty': u(`pkg=&entry=QQ`),
+  'archive not canonical (C: instead of c%3A)': u(`archive=file:///C:/x.zip&entry=QQ`),
+  'archive empty': u(`archive=&entry=QQ`),
   'path differs from label': u(`${Q}&entry=QQ`, { path: '/B' }),
   'path not normalized': u(`${Q}&entry=QQ`, { path: '/./A' }),
   'authority upper case': u(`${Q}&entry=QQ`, { authority: 'V1' }),

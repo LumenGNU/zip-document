@@ -122,7 +122,7 @@ const PAIRS = [
   ['регистр authority',  { a: 'x', p: '/a/b.txt' }, { a: 'X', p: '/a/b.txt' }],
   ['регистр query',      { p: '/a/b.txt', q: 'file:///tmp/x.zip' }, { p: '/a/b.txt', q: 'file:///tmp/X.zip' }],
   ['fragment',           { p: '/a/b.txt' }, { p: '/a/b.txt', f: 'L10' }],
-  ['entry=QQ vs entry=QR', { p: '/a/b.txt', q: `pkg=${ARCHIVE}&entry=QQ` }, { p: '/a/b.txt', q: `pkg=${ARCHIVE}&entry=QR` }],
+  ['entry=QQ vs entry=QR', { p: '/a/b.txt', q: `archive=${ARCHIVE}&entry=QQ` }, { p: '/a/b.txt', q: `archive=${ARCHIVE}&entry=QR` }],
 ];
 
 // Watchers: one URI open in several editor groups, then closed one by one.
@@ -137,7 +137,7 @@ async function watchLifecycle() {
                calls: calls.filter(c => c.op === 'watch' || c.op === 'unwatch').map(c => ({ op: c.op, id: c.id, str: c.uri.str, options: c.options })) });
   };
   const u = mk({ p: '/lifecycle/a/b.txt' });
-  const u2 = mk({ p: '/lifecycle/a/b.txt', q: `pkg=${ARCHIVE}&entry=QR` });
+  const u2 = mk({ p: '/lifecycle/a/b.txt', q: `archive=${ARCHIVE}&entry=QR` });
   await act('vscode.open(u)', () => vscode.commands.executeCommand('vscode.open', u));
   await act('splitEditor', () => vscode.commands.executeCommand('workbench.action.splitEditor'));
   await act('vscode.open(u, ViewColumn.Three)', () => vscode.commands.executeCommand('vscode.open', u, vscode.ViewColumn.Three));

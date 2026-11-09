@@ -65,7 +65,7 @@ const withQuery = (c, q) => ({ query: q.join('&') });
 const setParam = (c, key, value) => {
   const q = parts(c).filter(p => !p.startsWith(key + '='));
   if (value !== null) q.push(key + '=' + value);
-  const order = ['pkg', 'entry', 'index'];
+  const order = ['archive', 'entry', 'index'];
   q.sort((a, b) => order.indexOf(a.split('=')[0]) - order.indexOf(b.split('=')[0]));
   return { query: q.join('&') };
 };
@@ -105,12 +105,12 @@ const MUTATIONS = {
   'index=+1': c => setParam(c, 'index', '+1'),
   'index=2^53': c => setParam(c, 'index', '9007199254740992'),
   'index dropped': c => setParam(c, 'index', null),
-  'pkg empty': c => setParam(c, 'pkg', ''),
-  'pkg without scheme': c => setParam(c, 'pkg', 'home/u/release.zip'),
-  'pkg upper-case scheme': c => setParam(c, 'pkg', parts(c)[0].slice(4).replace(/^[a-z-]+/, s => s.toUpperCase())),
-  'pkg toString(true)': (c, t) => setParam(c, 'pkg', t.archive.toString(true)),
-  'pkg with C:': c => setParam(c, 'pkg', 'file:///C:/x.zip'),
-  'pkg + "#"': c => setParam(c, 'pkg', parts(c)[0].slice(4) + '#'),
+  'archive empty': c => setParam(c, 'archive', ''),
+  'archive without scheme': c => setParam(c, 'archive', 'home/u/release.zip'),
+  'archive upper-case scheme': c => setParam(c, 'archive', parts(c)[0].slice(8).replace(/^[a-z-]+/, s => s.toUpperCase())),
+  'archive toString(true)': (c, t) => setParam(c, 'archive', t.archive.toString(true)),
+  'archive with C:': c => setParam(c, 'archive', 'file:///C:/x.zip'),
+  'archive + "#"': c => setParam(c, 'archive', parts(c)[0].slice(8) + '#'),
 };
 const ALPHABET = ['a', 'A', 'z', '0', '9', '/', '.', '%', '&', '=', '?', '#', '+', '-', '_', ':', ' ',
   '\u27e6', '\u27e7', '\u00e9', '\u200b', '\u{1f600}'];

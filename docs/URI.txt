@@ -1,6 +1,6 @@
 URI записи ZIP-архива
 
-  zip-document://v1/<метка>?pkg=<URI архива>&entry=<base64url байт имени>[&index=<n>]
+  zip-document://v1/<метка>?archive=<URI архива>&entry=<base64url байт имени>[&index=<n>]
 
 Как читать. Раздел 1 — цели формата (Т1–Т8) и термины; термины в разделах 2–3 понимаются в этом
 смысле. Нормативны разделы 2–3: по ним две независимые реализации обязаны получить один и тот же
@@ -121,8 +121,8 @@ fragment   пустой. [Р8]
 5. Если был снят завершающий "/" — к последнему сегменту дописывается "⟦U+002F⟧".
 6. index ≥ 1 — перед последним сегментом вставляется сегмент "⟦#index⟧".
 7. path = "/" + сегменты через "/".
-8. path начинается с "/X:", где X — заглавная латинская буква A–Z, — X заменяется на
-   "⟦U+00XX⟧".
+8. path начинается с "/X:", где X — заглавная латинская буква A–Z, — X заменяется на свою форму
+   "⟦U+XXXX⟧" ("/C:" → "/⟦U+0043⟧:").
 
 Список символов шага 2 — замороженный. Нормативна таблица ниже; получена она так: по Unicode 17.0
 объединение категорий Cc, Cf, Zl, Zp, Zs и свойств Default_Ignorable_Code_Point,
@@ -133,7 +133,7 @@ Noncharacter_Code_Point, из него исключены U+0020, ZWJ U+200D, ZW
   27E6  3000  3164  FDD0–FDEF  FEFF  FFA0  FFF0–FFFB  FFFE–FFFF  110BD  110CD
   13430–1343F  1BCA0–1BCA3  1D173–1D17A  E0000–E00FF  E01F0–E0FFF
   и nFFFE–nFFFF в плоскостях 1–16.
-Исключённые символы остаются как есть (Р7). Никакой другой обработки нет, в том числе
+Исключённые символы остаются как есть [Р7]. Никакой другой обработки нет, в том числе
 нормализации Unicode: регистр, NFC/NFD, пробел U+0020, "\", "%", "?", "#", "⟧" остаются как есть.
 
 Свойства метки — следуют из шагов, на них опираются гарантии раздела 4:
@@ -147,8 +147,8 @@ Noncharacter_Code_Point, из него исключены U+0020, ZWJ U+200D, ZW
 
 query — ровно эта строка, параметры в этом порядке, разделитель "&":
 
-  pkg=<P>&entry=<E>            для index = 0
-  pkg=<P>&entry=<E>&index=<N>  для index ≥ 1
+  archive=<P>&entry=<E>            для index = 0
+  archive=<P>&entry=<E>&index=<N>  для index ≥ 1
 
 P — toString() URI архива [Р4]. P не содержит "&" и "=" (их кодирует toString()) и
     совпадает со своим toString(Uri.parse(P)).
@@ -162,7 +162,7 @@ N — index, десятичное без ведущих нулей, от 1 до 
 URI каноничен, если он покомпонентно — scheme, authority, path, query, fragment, строгим
 равенством строк — равен URI, построенному по 3.1–3.3 из какой-либо тройки (архив, имя, index).
 Тройка, если она есть, извлекается из query однозначно: query делится по "&" на 2 или 3 части с
-префиксами "pkg=", "entry=", "index=" по порядку; значения берутся как есть, без процентного
+префиксами "archive=", "entry=", "index=" по порядку; значения берутся как есть, без процентного
 декодирования и без правил форм ("+" — не пробел) [Р5].
 
 Каноничность — свойство URI, который получил провайдер. Что VS Code делает с URI до провайдера
@@ -217,37 +217,37 @@ index — N или 0.
 
   src/main.ts
     path   /src/main.ts
-    query  pkg=file:///home/u/release.zip&entry=c3JjL21haW4udHM
-    строка zip-document://v1/src/main.ts?pkg%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3Dc3JjL21haW4udHM
+    query  archive=file:///home/u/release.zip&entry=c3JjL21haW4udHM
+    строка zip-document://v1/src/main.ts?archive%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3Dc3JjL21haW4udHM
 
   src/main.ts, второй дубликат
     path   /src/⟦#1⟧/main.ts
-    query  pkg=file:///home/u/release.zip&entry=c3JjL21haW4udHM&index=1
+    query  archive=file:///home/u/release.zip&entry=c3JjL21haW4udHM&index=1
 
   пустое имя
     path   /⟦⟧
-    query  pkg=file:///home/u/release.zip&entry=
+    query  archive=file:///home/u/release.zip&entry=
 
   ./a//../b.txt
     path   /⟦.⟧/a/⟦⟧/⟦..⟧/b.txt
-    query  pkg=file:///home/u/release.zip&entry=Li9hLy8uLi9iLnR4dA
-    строка zip-document://v1/%E2%9F%A6.%E2%9F%A7/a/%E2%9F%A6%E2%9F%A7/%E2%9F%A6..%E2%9F%A7/b.txt?pkg%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3DLi9hLy8uLi9iLnR4dA
+    query  archive=file:///home/u/release.zip&entry=Li9hLy8uLi9iLnR4dA
+    строка zip-document://v1/%E2%9F%A6.%E2%9F%A7/a/%E2%9F%A6%E2%9F%A7/%E2%9F%A6..%E2%9F%A7/b.txt?archive%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3DLi9hLy8uLi9iLnR4dA
 
   a/b/ (запись каталога)
     path   /a/b⟦U+002F⟧
-    query  pkg=file:///home/u/release.zip&entry=YS9iLw
+    query  archive=file:///home/u/release.zip&entry=YS9iLw
 
   байты 64 2F 84 2E 74 78 74 ("d/", байт 0x84 вне UTF-8, ".txt")
     path   /d/⟦84⟧.txt
-    query  pkg=file:///home/u/release.zip&entry=ZC-ELnR4dA
+    query  archive=file:///home/u/release.zip&entry=ZC-ELnR4dA
 
   invoice<U+202E>txt.exe
     path   /invoice⟦U+202E⟧txt.exe
-    query  pkg=file:///home/u/release.zip&entry=aW52b2ljZeKArnR4dC5leGU
+    query  archive=file:///home/u/release.zip&entry=aW52b2ljZeKArnR4dC5leGU
 
   META-INF/MANIFEST.MF внутри lib/x.jar
     path   /META-INF/MANIFEST.MF
-    query  pkg=zip-document://v1/lib/x.jar?pkg%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3DbGliL3guamFy&entry=TUVUQS1JTkYvTUFOSUZFU1QuTUY
+    query  archive=zip-document://v1/lib/x.jar?archive%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip%26entry%3DbGliL3guamFy&entry=TUVUQS1JTkYvTUFOSUZFU1QuTUY
 
 
 4. Гарантии и пределы
@@ -315,7 +315,7 @@ fragment отбрасывает — это значит, что URI доходи
   записей в редакторе архива.
 - Длина. Метка ≈ длина имени плюс 4–10 символов на каждое экранирование; E ≈ 4/3 байтов имени.
   Каждый уровень вложенности включает строку внешнего URI целиком и ещё раз экранирует её "%":
-  для имени "inner/archive.zip" длина строки на глубинах 1–5 — 114, 220, 344, 486, 646
+  для имени "inner/archive.zip" длина строки на глубинах 1–5 — 118, 228, 356, 502, 666
   символов. Предела длины в VS Code не нашли, но и не искали.
 - Как выглядят "⟦⟧", решают шрифты системы, не формат. Без шрифта с этими знаками вместо скобок
   будут квадратики, а содержимое экранирования ("U+202E", "84", "..") — ASCII и читается.
@@ -389,7 +389,9 @@ fragment отбрасывает — это значит, что URI доходи
 
 Р5. Свой разбор query: деление по "&" и префиксы.
     При фиксированном порядке и известных именах параметров больше ничего не нужно. Значения не
-    декодируются: P должна остаться той строкой, что дал toString(), и "+" в ней — "+". [О4]
+    декодируются: P должна остаться той строкой, что дал toString(), и "+" в ней — "+".
+    Имена параметров для однозначности не нужны, они нужны человеку: URI целиком виден в логах и
+    ошибках, и пустое значение видно ("entry=", а не одинокий "&"). [О4, О17]
 
 Р6. Байты имени — base64url без паддинга.
     - Нужна своя кодировка байт: Uri.query — строка (Р1).
@@ -483,7 +485,7 @@ fragment отбрасывает — это значит, что URI доходи
       показывает в описании вкладки ("/src/⟦#1⟧") и в крошках (раздел 6); номер стоит рядом с
       именем, к которому относится. [О11]
 
-    - Буква диска: "/X:" в начале — "/⟦U+00XX⟧:" ("C:/x" → "/⟦U+0043⟧:/x"). Заглавную
+    - Буква диска: "/X:" в начале — "⟦U+XXXX⟧" вместо X ("C:/x" → "/⟦U+0043⟧:/x"). Заглавную
       toString() переводит в нижний регистр (Р1), URI изменился бы по дороге; экранирование
       сохраняет букву как есть, и "C:/x" и "c:/x" остаются разными записями. [О12]
 
@@ -787,10 +789,15 @@ unzip и 7-Zip отбрасывают "", ".", ".." без подъёма на �
     такой схеме это адрес записи "a/img.png", а "../" в ссылке разрешился бы по правилам POSIX,
     которых у ZIP нет (О9). Выигрыш в длине этого не стоит.
 
+О17 (Р5). Query без имён параметров ("<P>&<E>[&<N>]") — однозначно, но пустое имя давало бы
+    "<P>&", с index — "<P>&&1", а отложенный корень отличался бы от записи с пустым именем одним
+    завершающим "&". Имя "pkg" (прежнее) — сокращение, понятное только знающим его
+    происхождение, и в экосистеме VS Code «package» — npm; "zip" путается со схемой ZipFS (Р10).
+
 Отложено, не отклонено.
 
-Корень — URI центрального каталога: path "/⟦U+002F⟧", query "pkg=<P>" без entry. Записи каталогов
-    адресуются, а центральный каталог — объект ZIP, который есть в каждом архиве, — нет; что по
+Корень — URI центрального каталога: path "/⟦U+002F⟧", query "archive=<P>" без entry. Записи
+    каталогов адресуются, а центральный каталог — объект ZIP, который есть в каждом архиве, — нет; что по
     нему отдавать (например, оглавление), решал бы провайдер. Форма свободна: пустой сегмент у
     записи всегда помечен "⟦⟧" (запись "/" — "/⟦⟧⟦U+002F⟧"); отсутствие entry отличает корень
     от записи с пустым именем ("entry="), как отсутствие index означает 0; заголовок вкладки
