@@ -1,0 +1,62 @@
+# Probes of the entry URI format (docs/URI.txt) on Linux, Windows and macOS: the checks of the
+# contract (check.js, blind/run.js) and VS Code itself (vscode-probe.js — URIs reach the provider
+# unchanged; ui-probe.js — what the tabs show, with screenshots). Results are uploaded as artifacts
+# uri-probes-<os>: out.txt, out-ui.txt, out-ui/*.png.
+name: uri-probes
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'probes/uri-format/**'
+      - '.github/workflows/uri-probes.yml'
+
+jobs:
+  probes:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: probes/uri-format
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Contract (check.js)
+        run: node check.js
+
+      # Only implementations written to the current text: three older ones (sonnet.js, haiku.js,
+      # haiku-2.js) diverge on unusual ports by design, see blind/README.md, third run.
+      - name: Blind implementations (run.js, seed 1)
+        working-directory: probes/uri-format/blind
+        run: node run.js impls/_reference.js impls/*-6.js impls/*-noex.js impls/openai-*.js impls/deepseek-*.js impls/mistral-*.js impls/xAI-*.js
+
+      - name: VS Code delivers URIs unchanged (vscode-probe.js)
+        run: |
+          if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a node run.js; else node run.js; fi
+          cat out.txt
+          grep -q '^ИТОГ: все URI дошли до провайдера без изменений и приняты$' out.txt
+
+      - name: What the tabs show (ui-probe.js)
+        if: always()
+        env:
+          PROBE: ui-probe.js
+        run: |
+          if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a -s "-screen 0 1600x900x24" node run.js; else node run.js; fi
+          cat out-ui.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: uri-probes-${{ runner.os }}
+          path: |
+            probes/uri-format/out.txt
+            probes/uri-format/out-ui.txt
+            probes/uri-format/out-ui/
