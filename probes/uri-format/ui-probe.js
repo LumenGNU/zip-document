@@ -119,6 +119,8 @@ const GROUPS = [
   ['запись каталога и файл с тем же именем', [['a/b/'], ['a/b']]],
   ['похожие имена: пробел и NBSP, ZWSP, NUL и знак U+2400', [['d/a b.txt'], ['d/a\u00a0b.txt'], ['d/ab.txt'], ['d/a\u200bb.txt'], ['d/a\u0000b.txt'], ['d/a␀b.txt']]],
   ['ä в UTF-8 и байт 0x84', [[new Uint8Array([0x64, 0x2f, 0xc3, 0xa4, 0x2e, 0x74, 0x78, 0x74])], [new Uint8Array([0x64, 0x2f, 0x84, 0x2e, 0x74, 0x78, 0x74])]]],
+  // "\" stays as is in the label (3.2); on Windows VS Code shows "/" in descriptions as "\".
+  ['"\\" в имени и разделитель: d\\a/b.txt и d/a/b.txt', [['d\\a/b.txt'], ['d/a/b.txt']]],
 ];
 
 exports.run = async function () {
