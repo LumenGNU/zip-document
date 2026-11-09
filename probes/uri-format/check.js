@@ -250,6 +250,17 @@ for (const port of ['1&2', '1=2', '%41']) {
   ok(wrong === 0 && refused === broken, `generator refuses exactly those ${refused} and builds accepted URIs for the rest`);
   console.log(`random archive URIs: ${total}, P not canonical: ${broken} (${(100 * broken / total).toFixed(1)}%), all through the port`);
 }
+// The mode of Uri.parse(P) is left open by 3.3: strict and lenient give the same verdict on P.
+{
+  const verdict = (p, strict) => { try { return URI.parse(p, strict).toString() === p; } catch { return false; } };
+  const fixed = ['', 'abc', '/abc', 'a b:x', 'x:', 'x:p', 'x://h/p', 'x:/%41', 'file:x', 'A:p', '-x:p', 'x://h:%41/p'];
+  const ALPHA = 'ab:/?#%@ +-.A1\\';
+  let st = 7;
+  const r = () => (st = (st * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const random = Array.from({ length: 100000 }, () => Array.from({ length: Math.floor(r() * 9) }, () => ALPHA[Math.floor(r() * ALPHA.length)]).join(''));
+  const differ = [...fixed, ...random].filter(p => verdict(p, true) !== verdict(p, false));
+  ok(differ.length === 0, `strict and lenient Uri.parse agree on whether P is canonical (${fixed.length + random.length} strings)`);
+}
 
 // --- size: nesting depth → string length
 const lengths = [];

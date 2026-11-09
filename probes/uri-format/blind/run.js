@@ -180,7 +180,7 @@ function check(implPath) {
   for (const port of ['1&2', '1=2', '%41', '1#2']) {
     let archive;
     try { archive = URI.from({ scheme: 'http', authority: 'h:' + port, path: '/x.zip' }); } catch { continue; }
-    const b = call(() => impl.build(archive, enc('a'), 0));
+    const b = call(() => impl.build(archive, Uint8Array.from(enc('a')), 0));
     note('build: archive without entry URIs', !!b.e, { input: 'archive ' + show(archive.toString()), want: 'refusal',
       got: b.e ? 'threw' : show(b.v && b.v.toString()) });
     const naive = URI.from({ scheme: 'zip-document', authority: 'v1', path: '/a', query: `archive=${archive.toString()}&entry=YQ` });
