@@ -91,7 +91,13 @@ const b64 = bytes => Buffer.from(bytes).toString('base64url');
 // (archive URI, name bytes, index among entries with these bytes) → entry URI.
 function build(Uri, archive, bytes, index = 0) {
   if (!Number.isSafeInteger(index) || index < 0) throw new RangeError(`index ${index}`);
-  let query = `archive=${archive.toString()}&entry=${b64(bytes)}`;
+  // 3.3: P must be non-empty, free of "&" and "=", and survive Uri.parse. toString() leaves the
+  // port (authority after the last ":") unencoded, so an odd port breaks this: no entry URI then.
+  const p = archive.toString();
+  let back;
+  try { back = Uri.parse(p, true).toString(); } catch { back = null; }
+  if (p === '' || /[&=]/.test(p) || back !== p) throw new RangeError(`archive URI has no canonical form: ${p}`);
+  let query = `archive=${p}&entry=${b64(bytes)}`;
   if (index > 0) query += `&index=${index}`;
   return Uri.from({ scheme: SCHEME, authority: AUTHORITY, path: labelPath(bytes, index), query, fragment: '' });
 }

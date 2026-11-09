@@ -207,7 +207,49 @@ ok(['QQ', 'QR', 'QQ==', 'Q Q', 'QQ!'].every(s => Buffer.from(s, 'base64url').toS
 ok(URI.parse('zip-document://v1/C:/a').toString() === 'zip-document://v1/c%3A/a', 'toString lower-cases /X:');
 { const amp = F.build(URI, URI.file('/tmp/a&b.zip'), enc('A'));
   ok(URI.parse(amp.toString(true)).query !== amp.query && F.parse(URI, URI.parse(amp.toString(true))) === null, 'toString(true) does not round-trip'); }
-ok(!/[&=]/.test(URI.from({ scheme: 'x', authority: 'a&b=c@h&=:1', path: '/p&=q', query: 'q=1&r=2', fragment: 'f&=g' }).toString()), 'toString() encodes & and = in every component');
+ok(!/[&=]/.test(URI.from({ scheme: 'x', authority: 'a&b=c@h&=:1', path: '/p&=q', query: 'q=1&r=2', fragment: 'f&=g' }).toString()), 'toString() encodes & and = in every component except the port');
+ok(URI.from({ scheme: 'x', authority: 'h:1&2=3', path: '/p' }).toString() === 'x://h:1&2=3/p', 'toString() leaves the port as is: & and = pass through');
+ok(URI.parse(URI.from({ scheme: 'x', authority: 'h:%41', path: '/p' }).toString()).authority === 'h:A', 'toString() of an odd port is not a fixed point');
+for (const port of ['1&2', '1=2', '%41']) {
+  const archive = URI.from({ scheme: 'http', authority: 'h:' + port, path: '/x.zip' });
+  let threw = false;
+  try { F.build(URI, archive, enc('a'), 0); } catch { threw = true; }
+  ok(threw, `generator refuses an archive whose P is not canonical (port ${port})`);
+}
+// Random archive URIs with hostile components: P breaks only through a non-digit port, and the
+// generator either builds a URI the provider accepts or refuses — never a URI it then rejects.
+{
+  const PIECES = ['a', 'A', '/', '//', '.', '..', '%', '%41', '&', '=', '?', '#', ':', '@', '[', ']', ' ', '+',
+    'C:', '\\', 'ä', '‮', '~', '\u0000', '😀'];
+  let st = 1;
+  const r = () => (st = (st * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const str = k => Array.from({ length: Math.floor(r() * k) }, () => PIECES[Math.floor(r() * PIECES.length)]).join('');
+  const SCHEMES = ['file', 'http', 'zip-document', 'vscode-remote', 'untitled'];
+  let total = 0, broken = 0, notPort = 0, refused = 0, wrong = 0;
+  for (let i = 0; i < 50000; i++) {
+    let u;
+    try {
+      u = URI.from({ scheme: SCHEMES[Math.floor(r() * SCHEMES.length)], authority: r() < 0.5 ? '' : str(4),
+        path: (r() < 0.8 ? '/' : '') + str(6), query: r() < 0.5 ? '' : str(4), fragment: r() < 0.7 ? '' : str(3) });
+    } catch { continue; }
+    total++;
+    const p = u.toString();
+    let back = null;
+    try { back = URI.parse(p, true).toString(); } catch {}
+    if (p === '' || /[&=]/.test(p) || back !== p) {
+      broken++;
+      const host = u.authority.replace(/^.*@/, ''), c = host.lastIndexOf(':');
+      if (c < 0 || /^[0-9]*$/.test(host.slice(c + 1))) notPort++;
+    }
+    let e = null;
+    try { e = F.build(URI, u, enc('a/b'), 1); } catch { refused++; continue; }
+    const t = F.parse(URI, e), t2 = F.parse(URI, URI.parse(e.toString()));
+    if (!t || !t2 || t.archive.toString() !== p) wrong++;
+  }
+  ok(notPort === 0, `P breaks only through the port (${broken} of ${total} random archive URIs)`);
+  ok(wrong === 0 && refused === broken, `generator refuses exactly those ${refused} and builds accepted URIs for the rest`);
+  console.log(`random archive URIs: ${total}, P not canonical: ${broken} (${(100 * broken / total).toFixed(1)}%), all through the port`);
+}
 
 // --- size: nesting depth → string length
 const lengths = [];
