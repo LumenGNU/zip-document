@@ -1,4 +1,4 @@
-// How does VS Code show the path of an entry URI (docs/URI.txt) to a human?
+// How does VS Code show the path of an object URI (docs/URI.txt: entries and the root) to a human?
 //
 // The path is a label only: tab title, tab description (same-name tabs), hover, breadcrumbs,
 // window title. The extension API gives `tab.label` only, so this probe reads the rendered
@@ -67,12 +67,19 @@ async function hoverActiveTab(c) {
   const r = await c.evaluate(`(() => { const e = document.querySelector('.part.editor .tabs-container .tab.active'); if (!e) return null; const b = e.getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; })()`);
   if (!r) return null;
   await c.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: r.x, y: r.y });
-  await sleep(1800);
-  const text = await c.evaluate(`(() => { const h = [...document.querySelectorAll('.workbench-hover, .monaco-hover')].filter(e => e.offsetParent !== null); return h.length ? h.map(e => e.textContent).join(' | ') : null; })()`);
+  // Poll until the hover is there: a fixed wait would measure the wait instead of VS Code.
+  const t0 = Date.now();
+  let text = null;
+  while (text === null && Date.now() - t0 < HOVER_TIMEOUT) {
+    await sleep(100);
+    text = await c.evaluate(`(() => { const h = [...document.querySelectorAll('.workbench-hover, .monaco-hover')].filter(e => e.offsetParent !== null && e.textContent); return h.length ? h.map(e => e.textContent).join(' | ') : null; })()`);
+  }
+  const ms = Date.now() - t0;
   await c.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 5, y: 600 });
   await sleep(300);
-  return text;
+  return { text, ms };
 }
+const HOVER_TIMEOUT = 20000; // the first hover after start took 7.9 s on Linux
 
 async function shot(c, file) {
   const bottom = await c.evaluate(`(() => { const e = document.querySelector('.part.editor .title'); return e ? Math.ceil(e.getBoundingClientRect().bottom) : 120; })()`);
@@ -122,6 +129,14 @@ const GROUPS = [
   // "\" stays as is in the label (3.2); on Windows VS Code shows "/" in descriptions as "\".
   ['"\\" в имени и разделитель: d\\a/b.txt и d/a/b.txt', [['d\\a/b.txt'], ['d/a/b.txt']]],
 ];
+// The root (name null), after the groups so that the numbers of the cases above stay: alone, and
+// together with the entries whose labels are closest to its "/⟦U+002F⟧".
+const ROOT = null;
+const ROOT_CASES = [['корень', ROOT]];
+const ROOT_GROUPS = [
+  ['корень, запись "/", запись-каталог "a/", пустое имя, текст "\u27e6U+002F\u27e7"',
+    [[ROOT], ['/'], ['a/'], [''], ['\u27e6U+002F\u27e7']]],
+];
 
 exports.run = async function () {
   fs.mkdirSync(OUT, { recursive: true });
@@ -131,13 +146,14 @@ exports.run = async function () {
   try { c = await connect(); } catch (e) { L.push('CDP: ' + e.message); fs.writeFileSync(path.join(__dirname, 'out-ui.txt'), L.join('\n') + '\n'); reg.dispose(); return; }
   await c.send('Page.enable');
   const toBytes = n => typeof n === 'string' ? enc(n) : n;
+  const object = (name, index = 0) => name === ROOT ? F.buildRoot(vscode.Uri, ARCHIVE) : F.build(vscode.Uri, ARCHIVE, toBytes(name), index);
   const verdict = (got, want) => got === null ? 'НЕТ' : got === want ? 'как есть' : `ИНАЧЕ ${JSON.stringify(cps(got))}`;
 
   let k = 0, bad = 0;
-  for (const [label, name] of CASES) {
+  const single = async (label, name) => {
     k++;
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
-    const u = F.build(vscode.Uri, ARCHIVE, toBytes(name));
+    const u = object(name);
     const segs = u.path.split('/').filter(Boolean);
     const last = segs[segs.length - 1] ?? '';
     await vscode.commands.executeCommand('vscode.open', u);
@@ -156,17 +172,18 @@ exports.run = async function () {
       `  вкладка       ${verdict(tab.name ?? null, last)}`,
       `  описание      ${JSON.stringify(tab.description && cps(tab.description))}`,
       `  aria-label    ${JSON.stringify(tab.aria && cps(tab.aria))}`,
-      `  подсказка     ${JSON.stringify(hover && cps(hover))}`,
+      `  подсказка     ${!hover ? 'null' : hover.text === null ? `НЕТ за ${HOVER_TIMEOUT} мс` : `${JSON.stringify(cps(hover.text))}  (через ${hover.ms} мс)`}`,
       `  крошки        ${JSON.stringify(d.crumbs.map(cps))}  ${crumbsOk ? '(все сегменты path как есть)' : '(НЕ все сегменты path как есть)'}`,
       `  окно          ${JSON.stringify(cps(d.windowTitle))}`,
       '');
-  }
-
-  for (const [label, items] of GROUPS) {
+  };
+  // distinct: also say whether the tabs differ in title or description (for the root groups;
+  // the earlier groups are kept as they were recorded).
+  const group = async (label, items, distinct = false) => {
     k++;
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
     for (const [name, index = 0] of items) {
-      await vscode.commands.executeCommand('vscode.open', F.build(vscode.Uri, ARCHIVE, toBytes(name), index), { preview: false });
+      await vscode.commands.executeCommand('vscode.open', object(name, index), { preview: false });
       await sleep(600);
     }
     await sleep(500);
@@ -175,8 +192,17 @@ exports.run = async function () {
     await shot(c, file);
     L.push(`## ${k}. ${label}   [${file}]`);
     for (const t of d.tabs) L.push(`  вкладка ${JSON.stringify(cps(t.name || ''))}  описание ${JSON.stringify(t.description && cps(t.description))}`);
+    if (distinct) {
+      const titles = new Set(d.tabs.map(t => t.name)).size, shown = new Set(d.tabs.map(t => t.name + '\u0000' + t.description)).size;
+      L.push(`  вкладок ${d.tabs.length} из ${items.length}; разных заголовков ${titles}, разных пар заголовок+описание ${shown}`);
+    }
     L.push('');
-  }
+  };
+
+  for (const [label, name] of CASES) await single(label, name);
+  for (const [label, items] of GROUPS) await group(label, items);
+  for (const [label, name] of ROOT_CASES) await single(label, name);
+  for (const [label, items] of ROOT_GROUPS) await group(label, items, true);
 
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
   c.close();

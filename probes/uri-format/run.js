@@ -13,7 +13,10 @@ const { runTests } = require('@vscode/test-electron');
       cachePath: path.join(dir, '..', 'uri-roundtrip', '.vscode-test'),
       extensionDevelopmentPath: dir,
       extensionTestsPath: path.join(dir, probe),
+      // --ozone-platform=x11: in a Wayland session Electron would ignore DISPLAY (Xvfb) and open the
+      // window on the desktop, where the real pointer cancels the probe's hovers.
       launchArgs: ['--disable-extensions', '--user-data-dir', path.join(dir, '.vscode-test', 'user-data'),
+        ...(process.platform === 'linux' ? ['--ozone-platform=x11'] : []),
         ...(probe === 'ui-probe.js' ? [`--remote-debugging-port=${process.env.CDP_PORT || 9339}`] : [])],
     });
   } catch (e) {

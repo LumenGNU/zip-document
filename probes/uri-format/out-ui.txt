@@ -6,7 +6,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{444}\\u{430}\\u{439}\\u{43b}.txt,\\u{20}preview"
-  подсказка     "/\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}/\\u{444}\\u{430}\\u{439}\\u{43b}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}/\\u{444}\\u{430}\\u{439}\\u{43b}.txt\\u{20}(preview\\u{20})"  (через 539 мс)
   крошки        ["\\u{43f}\\u{430}\\u{43f}\\u{43a}\\u{430}","\\u{444}\\u{430}\\u{439}\\u{43b}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{444}\\u{430}\\u{439}\\u{43b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -16,7 +16,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "caf\\u{e9}.txt,\\u{20}preview"
-  подсказка     "/caf\\u{e9}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/caf\\u{e9}.txt\\u{20}(preview\\u{20})"  (через 521 мс)
   крошки        ["caf\\u{e9}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}caf\\u{e9}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -26,7 +26,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "cafe\\u{301}.txt,\\u{20}preview"
-  подсказка     "/cafe\\u{301}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/cafe\\u{301}.txt\\u{20}(preview\\u{20})"  (через 523 мс)
   крошки        ["cafe\\u{301}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}cafe\\u{301}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -36,7 +36,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{fb01}le.txt,\\u{20}preview"
-  подсказка     "/\\u{fb01}le.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{fb01}le.txt\\u{20}(preview\\u{20})"  (через 524 мс)
   крошки        ["\\u{fb01}le.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{fb01}le.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -46,7 +46,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{ff21}\\u{ff22}\\u{ff23}.txt,\\u{20}preview"
-  подсказка     "/\\u{ff21}\\u{ff22}\\u{ff23}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{ff21}\\u{ff22}\\u{ff23}.txt\\u{20}(preview\\u{20})"  (через 538 мс)
   крошки        ["\\u{ff21}\\u{ff22}\\u{ff23}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{ff21}\\u{ff22}\\u{ff23}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -56,7 +56,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "x\\u{b2}.txt,\\u{20}preview"
-  подсказка     "/x\\u{b2}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/x\\u{b2}.txt\\u{20}(preview\\u{20})"  (через 534 мс)
   крошки        ["x\\u{b2}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}x\\u{b2}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -66,7 +66,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt,\\u{20}preview"
-  подсказка     "/\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt\\u{20}(preview\\u{20})"  (через 525 мс)
   крошки        ["\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{ff76}\\u{ff80}\\u{ff76}\\u{ff85}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -76,7 +76,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{216b}.txt,\\u{20}preview"
-  подсказка     "/\\u{216b}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{216b}.txt\\u{20}(preview\\u{20})"  (через 527 мс)
   крошки        ["\\u{216b}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{216b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -86,7 +86,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{338f}.txt,\\u{20}preview"
-  подсказка     "/\\u{338f}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{338f}.txt\\u{20}(preview\\u{20})"  (через 520 мс)
   крошки        ["\\u{338f}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{338f}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -96,7 +96,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{212b}.txt,\\u{20}preview"
-  подсказка     "/\\u{212b}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{212b}.txt\\u{20}(preview\\u{20})"  (через 520 мс)
   крошки        ["\\u{212b}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{212b}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -106,7 +106,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{2126}.txt,\\u{20}preview"
-  подсказка     "/\\u{2126}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{2126}.txt\\u{20}(preview\\u{20})"  (через 530 мс)
   крошки        ["\\u{2126}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{2126}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -116,7 +116,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{1100}\\u{1161}.txt,\\u{20}preview"
-  подсказка     "/\\u{1100}\\u{1161}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{1100}\\u{1161}.txt\\u{20}(preview\\u{20})"  (через 526 мс)
   крошки        ["\\u{1100}\\u{1161}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{1100}\\u{1161}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -126,7 +126,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{6587}\\u{4ef6}.txt,\\u{20}preview"
-  подсказка     "/\\u{4e2d}\\u{6587}/\\u{6587}\\u{4ef6}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{4e2d}\\u{6587}/\\u{6587}\\u{4ef6}.txt\\u{20}(preview\\u{20})"  (через 524 мс)
   крошки        ["\\u{4e2d}\\u{6587}","\\u{6587}\\u{4ef6}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{6587}\\u{4ef6}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -136,7 +136,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt,\\u{20}preview"
-  подсказка     "/\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt\\u{20}(preview\\u{20})"  (через 515 мс)
   крошки        ["\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{1f468}\\u{200d}\\u{1f469}\\u{200d}\\u{1f467}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -146,7 +146,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt,\\u{20}preview"
-  подсказка     "/\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt\\u{20}(preview\\u{20})"  (через 524 мс)
   крошки        ["\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{5e9}\\u{5dc}\\u{5d5}\\u{5dd}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -156,7 +156,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "invoice\\u{27e6}U+202E\\u{27e7}txt.exe,\\u{20}preview"
-  подсказка     "/invoice\\u{27e6}U+202E\\u{27e7}txt.exe\\u{20}(preview\\u{20})"
+  подсказка     "/invoice\\u{27e6}U+202E\\u{27e7}txt.exe\\u{20}(preview\\u{20})"  (через 530 мс)
   крошки        ["invoice\\u{27e6}U+202E\\u{27e7}txt.exe"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}invoice\\u{27e6}U+202E\\u{27e7}txt.exe\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -166,7 +166,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "a\\u{27e6}U+200B\\u{27e7}b.txt,\\u{20}preview"
-  подсказка     "/a\\u{27e6}U+200B\\u{27e7}b.txt\\u{20}(preview\\u{20})"
+  подсказка     "/a\\u{27e6}U+200B\\u{27e7}b.txt\\u{20}(preview\\u{20})"  (через 517 мс)
   крошки        ["a\\u{27e6}U+200B\\u{27e7}b.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+200B\\u{27e7}b.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -176,7 +176,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{27e6}U+FEFF\\u{27e7}bom.txt,\\u{20}preview"
-  подсказка     "/\\u{27e6}U+FEFF\\u{27e7}bom.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{27e6}U+FEFF\\u{27e7}bom.txt\\u{20}(preview\\u{20})"  (через 518 мс)
   крошки        ["\\u{27e6}U+FEFF\\u{27e7}bom.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}U+FEFF\\u{27e7}bom.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -186,7 +186,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt,\\u{20}preview"
-  подсказка     "/a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt\\u{20}(preview\\u{20})"
+  подсказка     "/a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt\\u{20}(preview\\u{20})"  (через 526 мс)
   крошки        ["a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0009\\u{27e7}b\\u{27e6}U+000A\\u{27e7}c.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -196,7 +196,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "a\\u{27e6}U+0000\\u{27e7}b.txt,\\u{20}preview"
-  подсказка     "/a\\u{27e6}U+0000\\u{27e7}b.txt\\u{20}(preview\\u{20})"
+  подсказка     "/a\\u{27e6}U+0000\\u{27e7}b.txt\\u{20}(preview\\u{20})"  (через 525 мс)
   крошки        ["a\\u{27e6}U+0000\\u{27e7}b.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0000\\u{27e7}b.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -206,7 +206,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt,\\u{20}preview"
-  подсказка     "/a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt\\u{20}(preview\\u{20})"
+  подсказка     "/a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt\\u{20}(preview\\u{20})"  (через 530 мс)
   крошки        ["a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+0085\\u{27e7}b\\u{27e6}U+007F\\u{27e7}c.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -216,7 +216,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt,\\u{20}preview"
-  подсказка     "/a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt\\u{20}(preview\\u{20})"  (через 534 мс)
   крошки        ["a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}a\\u{27e6}U+2066\\u{27e7}b\\u{27e6}U+2069\\u{27e7}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -226,7 +226,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt,\\u{20}preview"
-  подсказка     "/z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt\\u{20}(preview\\u{20})"  (через 530 мс)
   крошки        ["z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}z\\u{301}\\u{302}\\u{303}\\u{304}\\u{305}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -236,7 +236,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{27e6}84\\u{27e7}.txt,\\u{20}preview"
-  подсказка     "/\\u{27e6}84\\u{27e7}.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{27e6}84\\u{27e7}.txt\\u{20}(preview\\u{20})"  (через 516 мс)
   крошки        ["\\u{27e6}84\\u{27e7}.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}84\\u{27e7}.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -246,7 +246,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{fb01}le.txt,\\u{20}preview"
-  подсказка     "/\\u{43e}\\u{434}\\u{438}\\u{43d}/\\u{434}\\u{432}\\u{430}/\\u{442}\\u{440}\\u{438}/\\u{fb01}le.txt\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{43e}\\u{434}\\u{438}\\u{43d}/\\u{434}\\u{432}\\u{430}/\\u{442}\\u{440}\\u{438}/\\u{fb01}le.txt\\u{20}(preview\\u{20})"  (через 520 мс)
   крошки        ["\\u{43e}\\u{434}\\u{438}\\u{43d}","\\u{434}\\u{432}\\u{430}","\\u{442}\\u{440}\\u{438}","\\u{fb01}le.txt"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{fb01}le.txt\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -256,7 +256,7 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
   вкладка       как есть
   описание      null
   aria-label    "\\u{27e6}\\u{27e7},\\u{20}preview"
-  подсказка     "/\\u{27e6}\\u{27e7}\\u{20}(preview\\u{20})"
+  подсказка     "/\\u{27e6}\\u{27e7}\\u{20}(preview\\u{20})"  (через 524 мс)
   крошки        ["\\u{27e6}\\u{27e7}"]  (все сегменты path как есть)
   окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}\\u{27e7}\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
 
@@ -300,5 +300,23 @@ VS Code 1.145.2, linux. Что видит человек: DOM workbench чере
 ## 34. "\" в имени и разделитель: d\a/b.txt и d/a/b.txt   [34.png]
   вкладка "b.txt"  описание "/d\\a"
   вкладка "b.txt"  описание "/d/a"
+
+## 35. корень   [35.png]
+  path          "/\\u{27e6}U+002F\\u{27e7}"
+  NFC / NFKC    не меняет / не меняет
+  вкладка       как есть
+  описание      null
+  aria-label    "\\u{27e6}U+002F\\u{27e7},\\u{20}preview"
+  подсказка     "/\\u{27e6}U+002F\\u{27e7}\\u{20}(preview\\u{20})"  (через 527 мс)
+  крошки        ["\\u{27e6}U+002F\\u{27e7}"]  (все сегменты path как есть)
+  окно          "[Extension\\u{20}Development\\u{20}Host]\\u{20}\\u{27e6}U+002F\\u{27e7}\\u{20}-\\u{20}Visual\\u{20}Studio\\u{20}Code\\u{20}-\\u{20}Read-only"
+
+## 36. корень, запись "/", запись-каталог "a/", пустое имя, текст "⟦U+002F⟧"   [36.png]
+  вкладка "\\u{27e6}U+002F\\u{27e7}"  описание null
+  вкладка "\\u{27e6}\\u{27e7}\\u{27e6}U+002F\\u{27e7}"  описание null
+  вкладка "a\\u{27e6}U+002F\\u{27e7}"  описание null
+  вкладка "\\u{27e6}\\u{27e7}"  описание null
+  вкладка "\\u{27e6}U+27E6\\u{27e7}U+002F\\u{27e7}"  описание null
+  вкладок 5 из 5; разных заголовков 5, разных пар заголовок+описание 5
 
 ИТОГ: заголовок вкладки во всех случаях — последний сегмент path, символ в символ
