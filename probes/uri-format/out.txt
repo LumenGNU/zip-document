@@ -128,4 +128,25 @@ VS Code 1.145.2, linux. Схема zip-document, isCaseSensitive true.
   строка fs: ok; doc: ok; open: ok, вкладка "MANIFEST.MF"; вызовов провайдера 1, все с отправленным URI
   вкладок после обеих форм: 1
 
+## корень
+  zip-document://v1/%E2%9F%A6U%2B002F%E2%9F%A7?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Frelease.zip
+  path "/\\u{27e6}U+002F\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## корень архива с & = # в имени
+  zip-document://v1/%E2%9F%A6U%2B002F%E2%9F%A7?archive%3Dfile%3A%2F%2F%2Ftmp%2Fprobe%2Fa%2526b%253Dc%2523d.zip
+  path "/\\u{27e6}U+002F\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
+## корень вложенного архива
+  zip-document://v1/%E2%9F%A6U%2B002F%E2%9F%A7?archive%3Dzip-document%3A%2F%2Fv1%2Flib%2F%25E2%259F%25A6%25231%25E2%259F%25A7%2Fx.jar%3Farchive%253Dfile%253A%252F%252F%252Ftmp%252Fprobe%252Frelease.zip%2526entry%253DbGliL3guamFy%2526index%253D1
+  path "/\\u{27e6}U+002F\\u{27e7}"
+  Uri    fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 5, все с отправленным URI
+  строка fs: ok; doc: ok; open: ok, вкладка "\\u{27e6}U+002F\\u{27e7}"; вызовов провайдера 1, все с отправленным URI
+  вкладок после обеих форм: 1
+
 ИТОГ: все URI дошли до провайдера без изменений и приняты

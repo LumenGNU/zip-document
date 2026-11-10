@@ -1,4 +1,5 @@
-// Does VS Code deliver entry URIs of docs/URI.txt to the provider exactly as built?
+// Does VS Code deliver object URIs of docs/URI.txt (entries and the root) to the provider exactly
+// as built?
 //
 // A provider for scheme `zip-document` accepts only canonical URIs (uri.js `parse`) and records
 // every call. Each case URI is built with vscode.Uri and sent through workspace.fs,
@@ -57,6 +58,10 @@ const CASES = [
   ['произвольные байты', new Uint8Array([0xff, 0xfe, 0x2f, 0x00, 0x80])],
   ['архив с & = # в имени', enc('a.txt'), 0, vscode.Uri.file('/tmp/probe/a&b=c#d.zip')],
   ['вложенный архив', enc('META-INF/MANIFEST.MF'), 0, 'nested'],
+  // name null: the root (the central directory) of the archive
+  ['корень', null],
+  ['корень архива с & = # в имени', null, 0, vscode.Uri.file('/tmp/probe/a&b=c#d.zip')],
+  ['корень вложенного архива', null, 0, 'nested'],
 ];
 
 const allTabs = () => vscode.window.tabGroups.all.flatMap(g => g.tabs);
@@ -75,7 +80,7 @@ exports.run = async function () {
   let bad = 0;
   for (const [label, bytes, index = 0, arch = ARCHIVE] of CASES) {
     const archive = arch === 'nested' ? F.build(vscode.Uri, ARCHIVE, enc('lib/x.jar'), 1) : arch;
-    const u = F.build(vscode.Uri, archive, bytes, index);
+    const u = bytes === null ? F.buildRoot(vscode.Uri, archive) : F.build(vscode.Uri, archive, bytes, index);
     const sent = u.toString();
     L.push(`## ${label}`, `  ${sent}`, `  path ${JSON.stringify(show(u.path))}`);
     for (const [form, uri] of [['Uri', u], ['строка', vscode.Uri.parse(sent)]]) {
