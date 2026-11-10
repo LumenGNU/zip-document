@@ -88,37 +88,59 @@ function labelPath(bytes, index = 0) {
 
 const b64 = bytes => Buffer.from(bytes).toString('base64url');
 
-// (archive URI, name bytes, index among entries with these bytes) → entry URI.
-function build(Uri, archive, bytes, index = 0) {
-  if (!Number.isSafeInteger(index) || index < 0) throw new RangeError(`index ${index}`);
-  // 3.3: P must be non-empty, free of "&" and "=", and survive Uri.parse. toString() leaves the
-  // port (authority after the last ":") unencoded, so an odd port breaks this: no entry URI then.
+// The root (the central directory) has a constant label. No entry has it (3.2): an empty
+// segment of an entry is always shown as ESC_OPEN ESC_CLOSE, so entry "/" is "/⟦⟧⟦U+002F⟧".
+const ROOT_PATH = '/' + esc('U+002F');
+
+// Archive URI → P, the same for entries and the root (3.3). P must be non-empty, free of "&"
+// and "=", and survive Uri.parse. toString() leaves the port (authority after the last ":")
+// unencoded, so an odd port breaks this: no URI of any object of that archive then.
+function archiveP(Uri, archive) {
   const p = archive.toString();
   let back;
   try { back = Uri.parse(p, true).toString(); } catch { back = null; }
   if (p === '' || /[&=]/.test(p) || back !== p) throw new RangeError(`archive URI has no canonical form: ${p}`);
-  let query = `archive=${p}&entry=${b64(bytes)}`;
+  return p;
+}
+
+// (archive URI, name bytes, index among entries with these bytes) → entry URI.
+function build(Uri, archive, bytes, index = 0) {
+  if (!Number.isSafeInteger(index) || index < 0) throw new RangeError(`index ${index}`);
+  let query = `archive=${archiveP(Uri, archive)}&entry=${b64(bytes)}`;
   if (index > 0) query += `&index=${index}`;
   return Uri.from({ scheme: SCHEME, authority: AUTHORITY, path: labelPath(bytes, index), query, fragment: '' });
 }
 
+// Archive URI → root URI. A separate function, not build() without bytes: a forgotten
+// argument must not silently address the root.
+function buildRoot(Uri, archive) {
+  return Uri.from({ scheme: SCHEME, authority: AUTHORITY, path: ROOT_PATH, query: `archive=${archiveP(Uri, archive)}`, fragment: '' });
+}
+
 const same = (a, b) => ['scheme', 'authority', 'path', 'query', 'fragment'].every(k => a[k] === b[k]);
 
-// Entry URI → { archive, bytes, index }, or null when the URI is not canonical.
-// Canonical means: building it again from what was parsed gives exactly the same URI.
+// Object URI → { kind: 'entry', archive, bytes, index } or { kind: 'root', archive }, or null
+// when the URI is not canonical. Canonical means: building it again from what was parsed gives
+// exactly the same URI. The query alone decides the branch (3.4): one part is the root, two or
+// three are an entry; the label is checked only by that comparison.
 function parse(Uri, uri) {
   const parts = uri.query.split('&');
-  if (parts.length < 2 || parts.length > 3) return null;
+  if (parts.length > 3) return null;
   const [p, e, i] = parts;
-  if (!p.startsWith('archive=') || !e.startsWith('entry=') || (i !== undefined && !i.startsWith('index='))) return null;
+  if (!p.startsWith('archive=') || (e !== undefined && !e.startsWith('entry=')) || (i !== undefined && !i.startsWith('index='))) return null;
   let archive;
   try { archive = Uri.parse(p.slice('archive='.length), true); } catch { return null; }
+  if (e === undefined) {
+    let canonical;
+    try { canonical = buildRoot(Uri, archive); } catch { return null; }
+    return same(uri, canonical) ? { kind: 'root', archive } : null;
+  }
   const bytes = Buffer.from(e.slice(6), 'base64url');
   const index = i === undefined ? 0 : Number(i.slice(6));
   if (!Number.isSafeInteger(index) || index < 0) return null;
   let canonical;
   try { canonical = build(Uri, archive, bytes, index); } catch { return null; }
-  return same(uri, canonical) ? { archive, bytes: new Uint8Array(bytes), index } : null;
+  return same(uri, canonical) ? { kind: 'entry', archive, bytes: new Uint8Array(bytes), index } : null;
 }
 
-module.exports = { SCHEME, AUTHORITY, ESC_OPEN, ESC_CLOSE, SHOWN_AS_ESCAPE, shownAsEscape, utf8At, renderName, labelPath, build, parse, same };
+module.exports = { SCHEME, AUTHORITY, ESC_OPEN, ESC_CLOSE, SHOWN_AS_ESCAPE, ROOT_PATH, shownAsEscape, utf8At, renderName, labelPath, build, buildRoot, parse, same };

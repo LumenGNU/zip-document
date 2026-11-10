@@ -99,6 +99,12 @@ const PAIRS = [
 for (const [x, y] of PAIRS) ok(F.labelPath(x) !== F.labelPath(y), 'labels must differ: ' + F.labelPath(x));
 ok(F.labelPath(enc('a/b'), 0) !== F.labelPath(enc('a/b'), 1), 'duplicates: labels must differ');
 
+// The root label (3.2) and the entries closest to it: no entry gets it, with any index
+ok(F.ROOT_PATH === '/' + E('U+002F'), 'root label is /' + E('U+002F'));
+for (const name of [enc('/'), enc(''), enc('a/'), enc(E('U+002F')), enc('U+002F'), enc('//'), enc('∕'), B(0x2f, 0x84)])
+  for (const i of [0, 1, 2]) ok(F.labelPath(name, i) !== F.ROOT_PATH, 'an entry has the root label: ' + JSON.stringify(Buffer.from(name).toString('latin1')) + ' #' + i);
+ok(F.labelPath(enc(E('U+002F'))) === '/' + E('U+27E6') + 'U+002F' + C, 'name "' + E('U+002F') + '": its escape is escaped');
+
 // --- label path: invariant under VS Code's normalizePath and parse∘toString
 const vsNormalize = p => { // what UriIdentityService does to a path (probes/uri-roundtrip)
   const out = [];
@@ -125,7 +131,7 @@ const rnd = k => {
 const PIECES = ['a', 'B', '/', '/', '.', '..', '', '%', '%2F', '&', '=', '#', '?', '+', ' ', '\\', 'C:', 'c:', '\u00e9',
   'e\u0301', '\u00e4', '\u0000', '\n', '\u007f', '\u0085', '\u00a0', '\u00ad', '\u200b', '\u202e', '\u2066', '\u2028',
   '\u200d', '\u200f', '\ufe0f', '\ufeff', '\ufffd', '\u2400', O, C, O + '84' + C, O + '#1' + C, 'U+0043',
-  '\u{1f600}', '\u0416', '~', '-', '_'];
+  O + 'U+002F' + C, 'U+002F', '\u{1f600}', '\u0416', '~', '-', '_'];
 const randomName = () => {
   if (rnd(4) === 0) return Uint8Array.from({ length: rnd(12) }, () => rnd(256)); // arbitrary bytes
   let s = ''; for (let k = rnd(8); k > 0; k--) s += PIECES[rnd(PIECES.length)];
@@ -134,7 +140,7 @@ const randomName = () => {
 const utf8fatal = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
 const ARCHIVES = [ARCHIVE, URI.parse('file:///C:/x.zip'), URI.file('/tmp/a&b=c#d?e%.zip'),
   URI.parse('vscode-remote://ssh-remote%2Bhost/x.zip'), URI.parse('http://u:p@h:8/x.zip?q=1&r=2#f')];
-const seen = new Map(), labels = new Map();
+const seen = new Map(), labels = new Map(), roots = new Map();
 const N = 20000;
 const before = n;
 for (let t = 0; t < N; t++) {
@@ -157,13 +163,23 @@ for (let t = 0; t < N; t++) {
   { let valid = true; try { utf8fatal.decode(bytes); } catch { valid = false; }
     ok(valid === !/\u27e6[0-9A-F]{2}\u27e7/.test(F.renderName(bytes)), 'byte escapes exactly when not UTF-8 ' + Buffer.from(bytes).toString('hex')); }
   const r = F.parse(URI, back);
-  ok(r && r.archive.toString() === archive.toString() && sameBytes(r.bytes, bytes) && r.index === index, 'parse ' + s);
-  // injectivity: one string per (archive, bytes, index); one label per (bytes, index)
+  ok(r && r.kind === 'entry' && r.archive.toString() === archive.toString() && sameBytes(r.bytes, bytes) && r.index === index, 'parse ' + s);
+  // injectivity: one string per (archive, bytes, index); one label per (bytes, index); the root
+  // label belongs to no entry
   const key = Buffer.from(bytes).toString('hex') + '\u0000' + index;
-  ok(!seen.has(s) || seen.get(s) === archive.toString() + key, 'two entries share ' + s);
+  ok((!seen.has(s) || seen.get(s) === archive.toString() + key) && !roots.has(s), 'two objects share ' + s);
   seen.set(s, archive.toString() + key);
   ok(!labels.has(u.path) || labels.get(u.path) === key, 'two entries share the label ' + u.path);
   labels.set(u.path, key);
+  ok(u.path !== F.ROOT_PATH, 'an entry has the root label ' + s);
+  // the root of the same archive: same properties, and the archive comes back
+  const root = F.buildRoot(URI, archive), rs = root.toString(), rback = URI.parse(rs);
+  ok(F.same(rback, root) && rback.toString() === rs, 'root: string round trip, toString is a fixed point ' + rs);
+  ok(vsNormalize(root.path) === root.path, 'root: path is a fixed point of VS Code');
+  const rr = F.parse(URI, rback);
+  ok(rr && rr.kind === 'root' && rr.archive.toString() === archive.toString() && !('bytes' in rr), 'root: parse ' + rs);
+  ok((!roots.has(rs) || roots.get(rs) === archive.toString()) && !seen.has(rs), 'two objects share ' + rs);
+  roots.set(rs, archive.toString());
 }
 const randomChecks = n - before;
 // Guard against the generator degenerating again (the space of cases is far larger than N).
@@ -175,6 +191,9 @@ const u = (query, extra = {}) => URI.from({ scheme: F.SCHEME, authority: F.AUTHO
 ok(F.parse(URI, u(`${Q}&entry=QQ`)), 'canonical: entry "A"');
 ok(F.parse(URI, u(`${Q}&entry=QQ&index=1`, { path: '/' + E('#1') + '/A' })), 'canonical: index 1');
 ok(F.parse(URI, F.build(URI, ARCHIVE, new Uint8Array(0))).bytes.length === 0, 'empty name: entry=');
+ok(F.parse(URI, u(Q, { path: F.ROOT_PATH }))?.kind === 'root', 'canonical: root');
+ok(F.buildRoot(URI, ARCHIVE).toString() === 'zip-document://v1/%E2%9F%A6U%2B002F%E2%9F%A7?archive%3Dfile%3A%2F%2F%2Fhome%2Fu%2Frelease.zip',
+  'root: string of example 3.7');
 const REJECT = {
   'entry=QR (lenient decoder → "A")': u(`${Q}&entry=QR`),
   'entry=QQ== (padding)': u(`${Q}&entry=QQ==`),
@@ -190,7 +209,20 @@ const REJECT = {
   'order': u(`entry=QQ&${Q}`),
   'extra parameter': u(`${Q}&entry=QQ&x=1`),
   'repeated parameter': u(`${Q}&entry=QQ&entry=QQ`),
-  'no entry': u(Q),
+  'entry label without entry': u(Q),
+  'root: path "/"': u(Q, { path: '/' }),
+  'root: path of entry "/"': u(Q, { path: '/' + E('') + E('U+002F') }),
+  'root: path of empty name': u(Q, { path: '/' + E('') }),
+  'root: index without entry': u(`${Q}&index=1`, { path: F.ROOT_PATH }),
+  'root label with entry "/"': u(`${Q}&entry=Lw`, { path: F.ROOT_PATH }),
+  'root label with empty entry': u(`${Q}&entry=`, { path: F.ROOT_PATH }),
+  'root: trailing "&"': u(`${Q}&`, { path: F.ROOT_PATH }),
+  'root: other parameter': u('entry=QQ', { path: F.ROOT_PATH }),
+  'root: archive not canonical': u('archive=file:///C:/x.zip', { path: F.ROOT_PATH }),
+  'root: archive empty': u('archive=', { path: F.ROOT_PATH }),
+  'root: empty query': u('', { path: F.ROOT_PATH }),
+  'root: authority upper case': u(Q, { path: F.ROOT_PATH, authority: 'V1' }),
+  'root: fragment': u(Q, { path: F.ROOT_PATH, fragment: 'L10' }),
   'archive not canonical (C: instead of c%3A)': u(`archive=file:///C:/x.zip&entry=QQ`),
   'archive empty': u(`archive=&entry=QQ`),
   'path differs from label': u(`${Q}&entry=QQ`, { path: '/B' }),
@@ -212,9 +244,10 @@ ok(URI.from({ scheme: 'x', authority: 'h:1&2=3', path: '/p' }).toString() === 'x
 ok(URI.parse(URI.from({ scheme: 'x', authority: 'h:%41', path: '/p' }).toString()).authority === 'h:A', 'toString() of an odd port is not a fixed point');
 for (const port of ['1&2', '1=2', '%41']) {
   const archive = URI.from({ scheme: 'http', authority: 'h:' + port, path: '/x.zip' });
-  let threw = false;
+  let threw = false, rootThrew = false;
   try { F.build(URI, archive, enc('a'), 0); } catch { threw = true; }
-  ok(threw, `generator refuses an archive whose P is not canonical (port ${port})`);
+  try { F.buildRoot(URI, archive); } catch { rootThrew = true; }
+  ok(threw && rootThrew, `generator refuses an archive whose P is not canonical (port ${port}), for entries and the root`);
 }
 // Random archive URIs with hostile components: P breaks only through a non-digit port, and the
 // generator either builds a URI the provider accepts or refuses — never a URI it then rejects.
@@ -241,13 +274,18 @@ for (const port of ['1&2', '1=2', '%41']) {
       const host = u.authority.replace(/^.*@/, ''), c = host.lastIndexOf(':');
       if (c < 0 || /^[0-9]*$/.test(host.slice(c + 1))) notPort++;
     }
+    let root = null;
+    try { root = F.buildRoot(URI, u); } catch {}
     let e = null;
-    try { e = F.build(URI, u, enc('a/b'), 1); } catch { refused++; continue; }
+    try { e = F.build(URI, u, enc('a/b'), 1); } catch { refused++; if (root) wrong++; continue; }
+    if (!root) { wrong++; continue; }
     const t = F.parse(URI, e), t2 = F.parse(URI, URI.parse(e.toString()));
+    const r1 = F.parse(URI, root), r2 = F.parse(URI, URI.parse(root.toString()));
     if (!t || !t2 || t.archive.toString() !== p) wrong++;
+    if (r1?.kind !== 'root' || r2?.kind !== 'root' || r1.archive.toString() !== p) wrong++;
   }
   ok(notPort === 0, `P breaks only through the port (${broken} of ${total} random archive URIs)`);
-  ok(wrong === 0 && refused === broken, `generator refuses exactly those ${refused} and builds accepted URIs for the rest`);
+  ok(wrong === 0 && refused === broken, `generator refuses exactly those ${refused}, for entries and the root alike, and builds accepted URIs for the rest`);
   console.log(`random archive URIs: ${total}, P not canonical: ${broken} (${(100 * broken / total).toFixed(1)}%), all through the port`);
 }
 // The mode of Uri.parse(P) is left open by 3.3: strict and lenient give the same verdict on P.
@@ -267,8 +305,9 @@ const lengths = [];
 let a = ARCHIVE;
 for (let d = 1; d <= 5; d++) { a = F.build(URI, a, enc('inner/archive.zip')); lengths.push(a.toString().length); }
 
-console.log(`seed ${SEED}: ${N} random cases, ${seen.size} distinct, 10 properties each (${randomChecks} checks); ` +
+console.log(`seed ${SEED}: ${N} random cases, ${seen.size} distinct, ${randomChecks / N} properties each (${randomChecks} checks); ` +
   `${n - randomChecks} targeted checks. All passed.`);
 console.log('example:', F.build(URI, ARCHIVE, enc('src/main.ts')).toString());
+console.log('example, root:', F.buildRoot(URI, ARCHIVE).toString());
 console.log('example, nested:', F.build(URI, F.build(URI, ARCHIVE, enc('lib/x.jar')), enc('META-INF/MANIFEST.MF'), 1).toString());
 console.log('string length for nesting depth 1..5 (name inner/archive.zip):', lengths.join(', '));
